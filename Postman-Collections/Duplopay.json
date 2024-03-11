@@ -1,0 +1,4730 @@
+{
+	"info": {
+		"_postman_id": "c0285e7b-e442-43ac-a051-68eeb698bcab",
+		"name": "Dpay Merchant Integration Guide",
+		"description": "DuploPay is a complete suite of payment gateway solutions developed to provide an end-to-end solution for online payments across various business verticals. With use cases cutting across payment, collections, disbursement, reconciliation and payouts, customization, and integration through different secured alternatives.\n\n# Get Started\n\n- To create your merchant account , click [here](https://app.duplopg.com/).\n- On the login screen, click **Create an account**\n- Fill in the form requirements i.e. First Name, Last Name, Email Address and Password.\n    \n\n<img src=\"https://content.pstmn.io/7cd3424c-f346-4e15-aa97-2ca9da21a5c2/U2NyZWVuc2hvdCAyMDIzLTA3LTA3IGF0IDQuMjYuMzcgUE0ucG5n\" alt=\"Sign%20up%20\" width=\"552\" height=\"369\">\n\n- Once you complete your registration form, click on Create **Register**\n- Using the details provided on the sign up form, login to your account\n- When you login, select your business type (Individual, Business, SMEs and NGOs) as seen below and fill in the form requirements.\n    \n\n<img src=\"https://content.pstmn.io/9cb400b6-aeaa-493a-af69-127498e86d02/U2NyZWVuc2hvdCAyMDIzLTA3LTA3IGF0IDQuNDUuMTIgUE0ucG5n\" alt=\"Business%20types\" width=\"556\" height=\"353\">\n\n- When you submit, your account will automatically be in test mode and a request will be sent to us to activate your account.\n- When you submit, a request will be sent to us to activate your account. By default your account will be in test mode till your business is activated.\n- In test mode, no real money is involved.We'll still send webhooks and email notifications, and most of the API functions are the same.\n- When your account is activated, you can easily switch between test and live mode.\n    \n\n# Payment Authentication\n\n**API Keys**  \nDpay APIs use API keys to authenticate all API requests. Upon creating your merchant account, your API keys will be auto generated for you. You can find your test and live API keys under **Profile > Account/business settings > API key** on your dashboard.\n\n<img src=\"https://content.pstmn.io/526ccf0e-5a1f-46fa-9a49-f250d04eb936/U2NyZWVuc2hvdCAyMDIzLTA3LTA1IGF0IDUuNDAuMDEgUE0ucG5n\" alt=\"Api%20Keys\">\n\n**Webhooks**\n\nAfter a payment transaction on your account, we notify you on the status of this transaction i.e. successful payment or a failed transaction.  \nYou can find the test and live Webhooks under **Profile > Account/business settings > API key** on your dashboard.\n\n**Callback URLs**\n\nAfter a payment transaction on your account, the Callback URL is where your customers are redirected to. You can find the test and live Callback URLs under **Profile > Account/business settings > API key** on your dashboard.\n\n# Authentication\n\nTo make API calls on Duplo, you’ll have to pass a Bearer Token (your_secret_key).\n\n- BASE_URL [https://api.duplopg.com/api/v2](https://api.duplopg.com/api/v2)\n- Pass your secret key as the Bearer token in Authorization Header.\n- Pass your HMAC Signature as Encryption Header. (Required only in Payout)\n    \n\n**NOTE**: Signature authentication ensures the highest level of security for your payment creation requests. Not only does it provide a secure authentication mechanism, but also it ensures the integrity of your request payload, that is the content of your request payload has not been altered since it was transmitted from your side. BudPay signatures are calculated using _**HMAC-SH512**_ applied to payload and signed with your public key.\n\n**NOTE**: Make sure your payload is arranged alphabetically.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Transactions",
+			"item": [
+				{
+					"name": "Initialize Transaction",
+					"item": [
+						{
+							"name": "Initialize Transaction",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "667996b0-e3a0-4b18-a8d8-93dad2d8b840",
+										"exec": [
+											"pm.test(\"Response status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											" ",
+											"pm.test(\"Response is a JSON object\", function () {",
+											"    pm.expect(pm.response.json()).to.be.an('object');",
+											"});",
+											"",
+											"pm.test(\"Response has 'status' property\", function () {",
+											"    pm.expect(pm.response.json()).to.have.property('status');",
+											"});",
+											"",
+											"pm.test(\"Response has 'message' property\", function () {",
+											"    pm.expect(pm.response.json()).to.have.property('message');",
+											"});",
+											"",
+											"pm.test(\"Response has 'data' property\", function () {",
+											"    pm.expect(pm.response.json()).to.have.property('data');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "90ba4d76-3948-4a2a-b389-916ac957dad7",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{sk}}"
+									}
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"toluxsys@email.com\",\n    \"amount\": \"100\",\n    \"callback\": \"https://app.stag.duplopg.com/merchant/login\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{base_url}}/transaction/initialize",
+								"description": "The Transactions API allows you create and manage payments on your integration.\n\n#### Header\n\n| Param | Type | Required? | Decription |\n| --- | --- | --- | --- |\n| authorization | string | Yes | Set value to Bearer SECRET_KEY |\n| content-type | string | Yes | Set value to application/json |\n\n#### Parameters\n\n| Param | Type | Required? | Decription |\n| --- | --- | --- | --- |\n| email | string | Yes | Customer email address |\n| amount | string | Yes | Amount you are debiting customer. Do not pass this if creating subscriptions. |\n| currency | string | No | Currency charge should be performed in. Allowed values are: NGN or USD. Default currency set to NGN when currency parameter is not set |\n| reference | string | No | Unique case sensitive transaction reference. Only -,_,., =and alphanumeric characters allowed. If you do not pass this parameter, Duplo will generate a unique reference for you. |\n| callback | string | No | Function that runs when payment is successful. This should ideally be a script that uses the verify endpoint on the Budpay API to check the status of the transaction. |"
+							},
+							"response": [
+								{
+									"id": "69da8552-3291-4765-8a38-7ce3b1a8d24f",
+									"name": "Sample Response",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"email\": \"toluxsys@email.com\",\n    \"amount\": \"100\",\n    \"callback\": \"http://google.com\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": "{{base_url}}/transaction/initialize"
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Tue, 30 May 2023 16:13:28 GMT"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Server",
+											"value": "nginx/1.18.0 (Ubuntu)"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, private"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										}
+									],
+									"cookie": [],
+									"responseTime": null,
+									"body": "{\n    \"status\": true,\n    \"message\": \"Authorization URL created\",\n    \"data\": {\n        \"authorization_url\": \"http://3.249.23.128/pay/api?reference=DUP_16854632081854005349\",\n        \"access_code\": \"e4jf9hfenvtk\",\n        \"reference\": \"DUP_16854632081854005349\"\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Initialize Transaction with invalid email",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "38b468d8-297e-4074-9629-451e16697f9d",
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {",
+											"    pm.response.to.have.status(400);",
+											"}); ",
+											"",
+											"pm.test(\"Response is an object with status property set to false\", function () {",
+											"    pm.expect(pm.response.json()).to.be.an('object').that.has.property('status', false);",
+											"});",
+											"",
+											"pm.test(\"Response is an object with message property\", function () {",
+											"    pm.expect(pm.response.json()).to.be.an('object').that.has.property('message');",
+											"});",
+											"",
+											"pm.test(\"Response has an error object with email property\", function () {",
+											"    pm.expect(pm.response.json().error).to.be.an('object').that.has.property('email');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "0b3778df-bd88-4d6d-ae8e-6e72bd65f495",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{sk}}"
+									}
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"toluxsys@@email.com\",\n    \"amount\": \"100\",\n    \"callback\": \"http://google.com\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{base_url}}/transaction/initialize",
+								"description": "The Transactions API allows you create and manage payments on your integration.\n\n#### Header\n\n| Param | Type | Required? | Decription |\n| --- | --- | --- | --- |\n| authorization | string | Yes | Set value to Bearer SECRET_KEY |\n| content-type | string | Yes | Set value to application/json |\n\n#### Parameters\n\n| Param | Type | Required? | Decription |\n| --- | --- | --- | --- |\n| email | string | Yes | Customer email address |\n| amount | string | Yes | Amount you are debiting customer. Do not pass this if creating subscriptions. |\n| currency | string | No | Currency charge should be performed in. Allowed values are: NGN or USD. Default currency set to NGN when currency parameter is not set |\n| reference | string | No | Unique case sensitive transaction reference. Only -,_,., =and alphanumeric characters allowed. If you do not pass this parameter, Duplo will generate a unique reference for you. |\n| callback | string | No | Function that runs when payment is successful. This should ideally be a script that uses the verify endpoint on the Budpay API to check the status of the transaction. |"
+							},
+							"response": [
+								{
+									"id": "1a7220cf-07ac-4bb9-aaf0-ef0c52bce34c",
+									"name": "Sample Response",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"email\": \"toluxsys@email.com\",\n    \"amount\": \"100\",\n    \"callback\": \"http://google.com\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": "{{base_url}}/transaction/initialize"
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Tue, 30 May 2023 16:13:28 GMT"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Server",
+											"value": "nginx/1.18.0 (Ubuntu)"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, private"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										}
+									],
+									"cookie": [],
+									"responseTime": null,
+									"body": "{\n    \"status\": true,\n    \"message\": \"Authorization URL created\",\n    \"data\": {\n        \"authorization_url\": \"http://3.249.23.128/pay/api?reference=DUP_16854632081854005349\",\n        \"access_code\": \"e4jf9hfenvtk\",\n        \"reference\": \"DUP_16854632081854005349\"\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Initialize Transaction with invalid callback link",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "c37c6774-701c-4c28-9c77-44fa3b74a965",
+										"exec": [
+											"pm.test(\"Response status code is 200\", function () {",
+											"    pm.response.to.have.status(200); ",
+											"});",
+											"",
+											"pm.test(\"Response is an object with status property\", function () {",
+											"    pm.expect(pm.response.json()).to.be.an('object').that.has.property('status');",
+											"});",
+											"",
+											"pm.test(\"Response data has authorization_url, access_code, and reference properties\", function () {",
+											"    var data = pm.response.json().data;",
+											"    pm.expect(data).to.have.property('authorization_url');",
+											"    pm.expect(data).to.have.property('access_code');",
+											"    pm.expect(data).to.have.property('reference');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "2495215b-e8ad-415c-938e-d4afac47f48c",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{sk}}"
+									}
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"toluxsys@email.com\",\n    \"amount\": \"100\",\n    \"callback\": \"//?@google.com\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{base_url}}/transaction/initialize",
+								"description": "The Transactions API allows you create and manage payments on your integration.\n\n#### Header\n\n| Param | Type | Required? | Decription |\n| --- | --- | --- | --- |\n| authorization | string | Yes | Set value to Bearer SECRET_KEY |\n| content-type | string | Yes | Set value to application/json |\n\n#### Parameters\n\n| Param | Type | Required? | Decription |\n| --- | --- | --- | --- |\n| email | string | Yes | Customer email address |\n| amount | string | Yes | Amount you are debiting customer. Do not pass this if creating subscriptions. |\n| currency | string | No | Currency charge should be performed in. Allowed values are: NGN or USD. Default currency set to NGN when currency parameter is not set |\n| reference | string | No | Unique case sensitive transaction reference. Only -,_,., =and alphanumeric characters allowed. If you do not pass this parameter, Duplo will generate a unique reference for you. |\n| callback | string | No | Function that runs when payment is successful. This should ideally be a script that uses the verify endpoint on the Budpay API to check the status of the transaction. |"
+							},
+							"response": [
+								{
+									"id": "15782f23-8e9b-4c57-92c6-b4bd7ef71e93",
+									"name": "Sample Response",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"email\": \"toluxsys@email.com\",\n    \"amount\": \"100\",\n    \"callback\": \"http://google.com\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": "{{base_url}}/transaction/initialize"
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Tue, 30 May 2023 16:13:28 GMT"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Server",
+											"value": "nginx/1.18.0 (Ubuntu)"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, private"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										}
+									],
+									"cookie": [],
+									"responseTime": null,
+									"body": "{\n    \"status\": true,\n    \"message\": \"Authorization URL created\",\n    \"data\": {\n        \"authorization_url\": \"http://3.249.23.128/pay/api?reference=DUP_16854632081854005349\",\n        \"access_code\": \"e4jf9hfenvtk\",\n        \"reference\": \"DUP_16854632081854005349\"\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Initialize Transaction with empty email field",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "1bf87379-ec1e-4999-a1fe-944395a42006",
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {",
+											"    pm.response.to.have.status(400);",
+											"});",
+											"",
+											"pm.test(\"Response is an object with status, message, and error properties\", function () {",
+											"    pm.expect(pm.response.json()).to.be.an('object').that.has.all.keys('status', 'message', 'error');",
+											"}); "
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "e18e9bd5-58ff-4871-9393-3dd879253a07",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{sk}}"
+									}
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"\",\n    \"amount\": \"100\",\n    \"callback\": \"http://google.com\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{base_url}}/transaction/initialize",
+								"description": "The Transactions API allows you create and manage payments on your integration.\n\n#### Header\n\n| Param | Type | Required? | Decription |\n| --- | --- | --- | --- |\n| authorization | string | Yes | Set value to Bearer SECRET_KEY |\n| content-type | string | Yes | Set value to application/json |\n\n#### Parameters\n\n| Param | Type | Required? | Decription |\n| --- | --- | --- | --- |\n| email | string | Yes | Customer email address |\n| amount | string | Yes | Amount you are debiting customer. Do not pass this if creating subscriptions. |\n| currency | string | No | Currency charge should be performed in. Allowed values are: NGN or USD. Default currency set to NGN when currency parameter is not set |\n| reference | string | No | Unique case sensitive transaction reference. Only -,_,., =and alphanumeric characters allowed. If you do not pass this parameter, Duplo will generate a unique reference for you. |\n| callback | string | No | Function that runs when payment is successful. This should ideally be a script that uses the verify endpoint on the Budpay API to check the status of the transaction. |"
+							},
+							"response": [
+								{
+									"id": "7192c92a-c94c-4371-bfd7-45a7283ec91d",
+									"name": "Sample Response",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"email\": \"toluxsys@email.com\",\n    \"amount\": \"100\",\n    \"callback\": \"http://google.com\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": "{{base_url}}/transaction/initialize"
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Tue, 30 May 2023 16:13:28 GMT"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Server",
+											"value": "nginx/1.18.0 (Ubuntu)"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, private"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										}
+									],
+									"cookie": [],
+									"responseTime": null,
+									"body": "{\n    \"status\": true,\n    \"message\": \"Authorization URL created\",\n    \"data\": {\n        \"authorization_url\": \"http://3.249.23.128/pay/api?reference=DUP_16854632081854005349\",\n        \"access_code\": \"e4jf9hfenvtk\",\n        \"reference\": \"DUP_16854632081854005349\"\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Initialize Transaction with empty amount field",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "a3f0a321-66bc-49ca-98c4-3a1cc1011e55",
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {",
+											"    pm.response.to.have.status(400);",
+											"}); ",
+											"",
+											"pm.test(\"Response is an object with status property\", function () {",
+											"    pm.expect(pm.response.json()).to.be.an('object').that.has.property('status');",
+											"});",
+											"",
+											"pm.test(\"Response has an error object with amount property\", function () {",
+											"    pm.expect(pm.response.json().error).to.be.an('object').that.has.property('amount');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "469d28da-e412-40aa-8dbf-137e8e1e4076",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{sk}}"
+									}
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"toluxsys@email.com\",\n    \"amount\": \"\",\n    \"callback\": \"http://google.com\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{base_url}}/transaction/initialize",
+								"description": "The Transactions API allows you create and manage payments on your integration.\n\n#### Header\n\n| Param | Type | Required? | Decription |\n| --- | --- | --- | --- |\n| authorization | string | Yes | Set value to Bearer SECRET_KEY |\n| content-type | string | Yes | Set value to application/json |\n\n#### Parameters\n\n| Param | Type | Required? | Decription |\n| --- | --- | --- | --- |\n| email | string | Yes | Customer email address |\n| amount | string | Yes | Amount you are debiting customer. Do not pass this if creating subscriptions. |\n| currency | string | No | Currency charge should be performed in. Allowed values are: NGN or USD. Default currency set to NGN when currency parameter is not set |\n| reference | string | No | Unique case sensitive transaction reference. Only -,_,., =and alphanumeric characters allowed. If you do not pass this parameter, Duplo will generate a unique reference for you. |\n| callback | string | No | Function that runs when payment is successful. This should ideally be a script that uses the verify endpoint on the Budpay API to check the status of the transaction. |"
+							},
+							"response": [
+								{
+									"id": "6248d108-2f41-45cb-8c68-bc9abdae55d9",
+									"name": "Sample Response",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"email\": \"toluxsys@email.com\",\n    \"amount\": \"100\",\n    \"callback\": \"http://google.com\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": "{{base_url}}/transaction/initialize"
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Tue, 30 May 2023 16:13:28 GMT"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Server",
+											"value": "nginx/1.18.0 (Ubuntu)"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, private"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										}
+									],
+									"cookie": [],
+									"responseTime": null,
+									"body": "{\n    \"status\": true,\n    \"message\": \"Authorization URL created\",\n    \"data\": {\n        \"authorization_url\": \"http://3.249.23.128/pay/api?reference=DUP_16854632081854005349\",\n        \"access_code\": \"e4jf9hfenvtk\",\n        \"reference\": \"DUP_16854632081854005349\"\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Initialize Transaction with empty callback field",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "d2ee5d33-b11a-4c1d-afaa-0c5f6a5f04b5",
+										"exec": [
+											"pm.test(\"Response status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Response is a JSON object\", function () {",
+											"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+											"});",
+											"",
+											"pm.test(\"Response has 'status' property\", function () {",
+											"    pm.expect(pm.response.json()).to.have.property('status'); ",
+											"});",
+											"",
+											"pm.test(\"Response has 'message' property\", function () {",
+											"    pm.expect(pm.response.json()).to.have.property('message');",
+											"});",
+											"",
+											"pm.test(\"Response has 'data' property\", function () {",
+											"    pm.expect(pm.response.json()).to.have.property('data');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "f9da6415-b313-40e0-a9cb-d358f0836c84",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{sk}}"
+									}
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"toluxsys@email.com\",\n    \"amount\": \"100\",\n    \"callback\": \"\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{base_url}}/transaction/initialize",
+								"description": "The Transactions API allows you create and manage payments on your integration.\n\n#### Header\n\n| Param | Type | Required? | Decription |\n| --- | --- | --- | --- |\n| authorization | string | Yes | Set value to Bearer SECRET_KEY |\n| content-type | string | Yes | Set value to application/json |\n\n#### Parameters\n\n| Param | Type | Required? | Decription |\n| --- | --- | --- | --- |\n| email | string | Yes | Customer email address |\n| amount | string | Yes | Amount you are debiting customer. Do not pass this if creating subscriptions. |\n| currency | string | No | Currency charge should be performed in. Allowed values are: NGN or USD. Default currency set to NGN when currency parameter is not set |\n| reference | string | No | Unique case sensitive transaction reference. Only -,_,., =and alphanumeric characters allowed. If you do not pass this parameter, Duplo will generate a unique reference for you. |\n| callback | string | No | Function that runs when payment is successful. This should ideally be a script that uses the verify endpoint on the Budpay API to check the status of the transaction. |"
+							},
+							"response": [
+								{
+									"id": "438cd655-080d-42e5-ad4b-1ac204361d61",
+									"name": "Sample Response",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"email\": \"toluxsys@email.com\",\n    \"amount\": \"100\",\n    \"callback\": \"http://google.com\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": "{{base_url}}/transaction/initialize"
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Tue, 30 May 2023 16:13:28 GMT"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Server",
+											"value": "nginx/1.18.0 (Ubuntu)"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, private"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										}
+									],
+									"cookie": [],
+									"responseTime": null,
+									"body": "{\n    \"status\": true,\n    \"message\": \"Authorization URL created\",\n    \"data\": {\n        \"authorization_url\": \"http://3.249.23.128/pay/api?reference=DUP_16854632081854005349\",\n        \"access_code\": \"e4jf9hfenvtk\",\n        \"reference\": \"DUP_16854632081854005349\"\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Initialize Transaction with empty fields",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "f0f7c639-43f9-4509-91bf-394b990e1e79",
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {",
+											"    pm.response.to.have.status(400);",
+											"});",
+											"",
+											"pm.test(\"Response is an object with status property\", function () {",
+											"    pm.expect(pm.response.json()).to.be.an('object').that.has.property('status');",
+											"}); ",
+											"",
+											"pm.test(\"Response has an error object with email and amount properties\", function () {",
+											"    pm.expect(pm.response.json().error).to.be.an('object').that.has.all.keys('email', 'amount');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "64fc789e-d9f8-448d-8b6c-3a421219ac66",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{sk}}"
+									}
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"\",\n    \"amount\": \"\",\n    \"callback\": \"\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{base_url}}/transaction/initialize",
+								"description": "The Transactions API allows you create and manage payments on your integration.\n\n#### Header\n\n| Param | Type | Required? | Decription |\n| --- | --- | --- | --- |\n| authorization | string | Yes | Set value to Bearer SECRET_KEY |\n| content-type | string | Yes | Set value to application/json |\n\n#### Parameters\n\n| Param | Type | Required? | Decription |\n| --- | --- | --- | --- |\n| email | string | Yes | Customer email address |\n| amount | string | Yes | Amount you are debiting customer. Do not pass this if creating subscriptions. |\n| currency | string | No | Currency charge should be performed in. Allowed values are: NGN or USD. Default currency set to NGN when currency parameter is not set |\n| reference | string | No | Unique case sensitive transaction reference. Only -,_,., =and alphanumeric characters allowed. If you do not pass this parameter, Duplo will generate a unique reference for you. |\n| callback | string | No | Function that runs when payment is successful. This should ideally be a script that uses the verify endpoint on the Budpay API to check the status of the transaction. |"
+							},
+							"response": [
+								{
+									"id": "c4f0a0f3-59eb-4b19-b919-cea586b8bacb",
+									"name": "Sample Response",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"email\": \"toluxsys@email.com\",\n    \"amount\": \"100\",\n    \"callback\": \"http://google.com\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": "{{base_url}}/transaction/initialize"
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Tue, 30 May 2023 16:13:28 GMT"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Server",
+											"value": "nginx/1.18.0 (Ubuntu)"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, private"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										}
+									],
+									"cookie": [],
+									"responseTime": null,
+									"body": "{\n    \"status\": true,\n    \"message\": \"Authorization URL created\",\n    \"data\": {\n        \"authorization_url\": \"http://3.249.23.128/pay/api?reference=DUP_16854632081854005349\",\n        \"access_code\": \"e4jf9hfenvtk\",\n        \"reference\": \"DUP_16854632081854005349\"\n    }\n}"
+								}
+							]
+						}
+					],
+					"id": "f8810427-a6de-4c2b-a91f-eb5692e11342"
+				},
+				{
+					"name": "List Transactions",
+					"item": [
+						{
+							"name": "List Transactions",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "f9b7993c-0d9f-4be1-b5c3-499fc993cbab",
+										"exec": [
+											"pm.test(\"Response status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											" ",
+											"pm.test(\"Response is in JSON format\", function () {",
+											"    pm.response.to.have.header(\"Content-Type\", \"application/json\");",
+											"});",
+											"",
+											"pm.test(\"Response contains a status property with a boolean value\", function () {",
+											"    pm.expect(pm.response.json()).to.have.property(\"status\").that.is.a(\"boolean\");",
+											"});",
+											"",
+											"pm.test(\"Response contains data array with objects having specific properties\", function () {",
+											"    pm.response.json().data.forEach(function(transaction) {",
+											"        pm.expect(transaction).to.have.property(\"id\").that.is.a(\"number\");",
+											"        pm.expect(transaction).to.have.property(\"currency\").that.is.a(\"string\");",
+											"        pm.expect(transaction).to.have.property(\"amount\").that.is.a(\"string\");",
+											"        pm.expect(transaction).to.have.property(\"reference\").that.is.a(\"string\");",
+											"        pm.expect(transaction).to.have.property(\"ip_address\");",
+											"        pm.expect(transaction).to.have.property(\"channel\");",
+											"        pm.expect(transaction).to.have.property(\"type\").that.is.a(\"string\");",
+											"        pm.expect(transaction).to.have.property(\"domain\").that.is.a(\"string\");",
+											"        pm.expect(transaction).to.have.property(\"fees\").that.is.a(\"string\");",
+											"        pm.expect(transaction).to.have.property(\"requested_amount\").that.is.a(\"string\");",
+											"        pm.expect(transaction).to.have.property(\"status\").that.is.a(\"string\");",
+											"        pm.expect(transaction).to.have.property(\"card_attempt\").that.is.a(\"number\");",
+											"        pm.expect(transaction).to.have.property(\"split_code\");",
+											"        pm.expect(transaction).to.have.property(\"message\");",
+											"        pm.expect(transaction).to.have.property(\"gateway\");",
+											"        pm.expect(transaction).to.have.property(\"transfer_details\");",
+											"        pm.expect(transaction).to.have.property(\"webhook_status\");",
+											"        pm.expect(transaction).to.have.property(\"webhook_url\");",
+											"        pm.expect(transaction).to.have.property(\"webhook_response\");",
+											"        pm.expect(transaction).to.have.property(\"metadata\");",
+											"        pm.expect(transaction).to.have.property(\"created_at\").that.is.a(\"string\");",
+											"        pm.expect(transaction).to.have.property(\"paid_at\");",
+											"        pm.expect(transaction).to.have.property(\"customer\").that.is.an(\"object\");",
+											"    });",
+											"});",
+											"",
+											"pm.test(\"Response contains total_count property\", function () {",
+											"    pm.expect(pm.response.json()).to.have.property(\"total_count\");",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "3f7cb0f3-8b65-4054-ba6b-e87cc7b613b0",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "{{base_url}}/transaction",
+								"description": "This endpoint allows you to get all transactions"
+							},
+							"response": []
+						}
+					],
+					"id": "c44f1701-cad4-44f0-bbf6-61cf5e5bc239"
+				},
+				{
+					"name": "Verify Transaction",
+					"id": "084a9070-e74f-421e-aeb1-bf53875d2a72",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://api.duplopg.com/api/v1/transaction/verify/:{reference}",
+							"protocol": "https",
+							"host": [
+								"api",
+								"duplopg",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"transaction",
+								"verify",
+								":{reference}"
+							],
+							"variable": [
+								{
+									"key": "{reference}",
+									"value": "Dpay_1709470192182283171"
+								}
+							]
+						},
+						"description": "#### Verify Transaction with Reference number\n\nEndpoint: /transaction/verify/:reference  \nMethod: GET\n\n#### Header\n\n| Param | Type | Required? | Decription |\n| --- | --- | --- | --- |\n| _authorization_ | string | Yes | Set value to _Bearer SECRET_KEY_ |\n\n#### Path Param\n\n| Param | Type | Required? | Decription |\n| --- | --- | --- | --- |\n| _reference_ | string | Yes | The transaction reference used to intiate the transaction |"
+					},
+					"response": []
+				},
+				{
+					"name": "Transactions Query",
+					"id": "69e0d95e-7ace-46cf-ab30-b26838ec0d87",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{base_url}}/transaction_query/{search}"
+					},
+					"response": []
+				},
+				{
+					"name": "Fetch Transaction",
+					"id": "e1f701c1-05f3-4cfb-a9f7-be407eb7205d",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/transaction/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"transaction",
+								":id"
+							],
+							"variable": [
+								{
+									"id": "2911c130-6c24-4be6-9513-416e6d3ab8d8",
+									"key": "id",
+									"value": null
+								}
+							]
+						},
+						"description": "#### Fetch Single Transaction\n\nEndpoint: /transaction/:id  \nMethod: GET\n\n#### Header\n\n| Param | Type | Required? | Decription |\n| --- | --- | --- | --- |\n| _authorization_ | string | Yes | Set value to _Bearer SECRET_KEY_ |\n\n#### Query Param\n\n| Param | Type | Required? | Decription |\n| --- | --- | --- | --- |\n| _id_ | integer | Yes | An ID for the transaction to fetch |"
+					},
+					"response": []
+				},
+				{
+					"name": "View Transaction Timeline",
+					"id": "724dc97e-5ca2-4294-b07f-7c6e08419e57",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/transaction/timeline/:id_or_reference",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"transaction",
+								"timeline",
+								":id_or_reference"
+							],
+							"variable": [
+								{
+									"id": "0821fe0b-422f-44f0-ba26-27808a3f90d9",
+									"key": "id_or_reference",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Transaction Totals",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "cd8f7baf-55d6-4b61-9206-e61d7b74769b",
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									" ",
+									"pm.test(\"Response is in JSON format\", function () {",
+									"    pm.response.to.have.header(\"Content-Type\", \"application/json\");",
+									"});",
+									"",
+									"pm.test(\"Response has a status property with a value of true\", function () {",
+									"    pm.expect(pm.response.json().status).to.be.true;",
+									"});",
+									"",
+									"pm.test(\"Data object contains total_transactions, unique_customers, total_volume, and pending_transfers properties\", function () {",
+									"    var data = pm.response.json().data;",
+									"    pm.expect(data).to.have.property('total_transactions');",
+									"    pm.expect(data).to.have.property('unique_customers');",
+									"    pm.expect(data).to.have.property('total_volume');",
+									"    pm.expect(data).to.have.property('pending_transfers');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "f7ec976b-f1f8-4a2e-8fe8-72c31870d459",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{base_url}}/transaction/totals"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Wallet Transactions",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "aee05155-c1ac-4f71-b79e-3171dedadbd8",
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									" ",
+									"pm.test(\"Response is in JSON format\", function () {",
+									"    pm.response.to.have.header(\"Content-Type\", \"application/json\");",
+									"});",
+									"",
+									"pm.test(\"Response has 'status' property\", function () {",
+									"    pm.expect(pm.response.json()).to.have.property('status');",
+									"});",
+									"",
+									"pm.test(\"Response has 'message' property\", function () {",
+									"    pm.expect(pm.response.json()).to.have.property('message');",
+									"});",
+									"",
+									"pm.test(\"Response has 'data' property\", function () {",
+									"    pm.expect(pm.response.json()).to.have.property('data');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "8aa4e714-493a-4f0b-b90b-d816b8da0aec",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/wallet_transactions/{currency}?currency=NGN",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"wallet_transactions",
+								"{currency}"
+							],
+							"query": [
+								{
+									"key": "currency",
+									"value": "NGN"
+								}
+							]
+						},
+						"description": "The Wallet transactions API allows you fetch all your wallet transaction history.\n\n#### List Wallet Transactions\n\nList all your business Wallet Transactions.\n\nEndpoint: /wallet_transactions/{currency}  \nMethod: GET\n\n#### Header\n\n| Param | Type | Required? | Decription |\n| --- | --- | --- | --- |\n| _authorization_ | string | Yes | Set value to _Bearer SECRET_KEY_ |\n\n#### Path Params\n\n| Param | Type | Required? | Decription |\n| --- | --- | --- | --- |\n| _currency_ | string | Yes | wallet currency |"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Wallet Balance",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "6b17aa30-7b68-448e-9910-8c489d0426d7",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"}); ",
+									"",
+									"pm.test(\"Response content type is application/json\", function () {",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+									"});",
+									"",
+									"pm.test(\"Response is an object with success, message, and data properties\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.be.an('object').that.has.all.keys('success', 'message', 'data');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "b076c73a-92d6-458d-987d-e95019dadbf2",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/wallet_balance/NGN?currency=NGN",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"wallet_balance",
+								"NGN"
+							],
+							"query": [
+								{
+									"key": "currency",
+									"value": "NGN"
+								}
+							]
+						},
+						"description": "#### Get Wallet balance by Currency\n\nSometimes you may like to now your wallet balanace before a transfer is initiated or for any other purpose.\n\nEndpoint: /wallet_balance/{currency}  \nMethod: GET\n\n#### Header\n\n| Param | Type | Required? | Decription |\n| --- | --- | --- | --- |\n| _authorization_ | string | Yes | Set value to _Bearer SECRET_KEY_ |\n\n#### Query Param\n\n| Param | Type | Required? | Decription |\n| --- | --- | --- | --- |\n| _currency_ | string | Yes | Specify the currency of the transfer. e.g. NGN |"
+					},
+					"response": []
+				}
+			],
+			"id": "30df0ca0-3579-4810-a8f5-4fa5f94fbee5"
+		},
+		{
+			"name": "Customers",
+			"item": [
+				{
+					"name": "Create Customer",
+					"item": [
+						{
+							"name": "Create Customer",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "7af1e99a-cfb3-4bdc-9d12-9d3c04004edc",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Response is a JSON object with status, message, and data properties\", function () {",
+											"    pm.expect(pm.response.json()).to.be.an('object').that.has.all.keys('status', 'message', 'data');",
+											"});",
+											"",
+											"pm.test(\"Data property in the response is an object with specific properties\", function () {",
+											"    var data = pm.response.json().data;",
+											"    pm.expect(data).to.be.an('object').that.has.all.keys('email', 'domain', 'customer_code', 'id', 'created_at', 'updated_at');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "135842af-308b-4705-84c0-1a2d292501df",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"first_name\": \"Moses Ebuka\",\n    \"last_name\": \"George\",\n    \"phone\": \"08057037419\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{base_url}}/customer",
+								"description": "The Customers API allows you create and manage customers on your integration.\n\n#### Create Customer\n\nCreate a customer on your integration\n\nEndpoint: /customer  \nMethod: POST\n\n##### Customer Validation\n\nThe _first_name_, _last_name_ and _phone_ are optional parameters. However, when creating a customer that would be assigned to a Dedicated Virtual Account, then these parameters become compulsory or necessary.\n\n#### Header\n\n| Param | Type | Required? | Decription |\n| --- | --- | --- | --- |\n| _authorization_ | string | Yes | Set value to _Bearer SECRET_KEY_ |\n| _content-type_ | string | Yes | Set value to _application/json_ |\n\n#### Body Param\n\n| Param | Type | Required? | Decription |\n| --- | --- | --- | --- |\n| _email_ | string | Yes | Customer's email address |\n| _first_name_ | string | Yes | Customer's first name |\n| _last_name_ | string | Yes | Customer's last name |\n| _phone_ | string | No | Customer's phone number |\n| _metadata_ | string | No | A set of key/value pairs that you can attach to the customer. It can be used to store additional information in a structured format. |"
+							},
+							"response": []
+						},
+						{
+							"name": "Create Customer with invalid email",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "1a452d72-68df-4cf6-aab5-ade2e17a7a30",
+										"exec": [
+											"pm.test(\"Response status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Response has a JSON content type\", function () {",
+											"    pm.response.to.have.header(\"Content-Type\", \"application/json\");",
+											"});",
+											"",
+											"pm.test(\"Response is an object with status, message, and data properties\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData).to.be.an('object').that.has.all.keys('status', 'message', 'data');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "f0242240-0616-47f9-9c22-8d82550f92b6",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"richmond_oyen.23@@gmail.com\",\n    \"first_name\": \"Oluwolenu\",\n    \"last_name\": \"Oyeniyimu\",\n    \"phone\": \"08057037418\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{base_url}}/customer",
+								"description": "The Customers API allows you create and manage customers on your integration.\n\n#### Create Customer\n\nCreate a customer on your integration\n\nEndpoint: /customer  \nMethod: POST\n\n##### Customer Validation\n\nThe _first_name_, _last_name_ and _phone_ are optional parameters. However, when creating a customer that would be assigned to a Dedicated Virtual Account, then these parameters become compulsory or necessary.\n\n#### Header\n\n| Param | Type | Required? | Decription |\n| --- | --- | --- | --- |\n| _authorization_ | string | Yes | Set value to _Bearer SECRET_KEY_ |\n| _content-type_ | string | Yes | Set value to _application/json_ |\n\n#### Body Param\n\n| Param | Type | Required? | Decription |\n| --- | --- | --- | --- |\n| _email_ | string | Yes | Customer's email address |\n| _first_name_ | string | Yes | Customer's first name |\n| _last_name_ | string | Yes | Customer's last name |\n| _phone_ | string | No | Customer's phone number |\n| _metadata_ | string | No | A set of key/value pairs that you can attach to the customer. It can be used to store additional information in a structured format. |"
+							},
+							"response": []
+						},
+						{
+							"name": "Create Customer with invalid phone number",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "0d7380a4-8274-459e-bd52-909c73b596d9",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Response is a JSON object with status, message, and data properties\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData).to.be.an('object');",
+											"    pm.expect(jsonData).to.have.property('status');",
+											"    pm.expect(jsonData).to.have.property('message');",
+											"    pm.expect(jsonData).to.have.property('data');",
+											"});",
+											"",
+											"pm.test(\"Data property in the response is an object with specific properties\", function () {",
+											"    var data = pm.response.json().data;",
+											"    pm.expect(data).to.be.an('object');",
+											"    pm.expect(data).to.have.property('email');",
+											"    pm.expect(data).to.have.property('domain');",
+											"    pm.expect(data).to.have.property('customer_code');",
+											"    pm.expect(data).to.have.property('id');",
+											"    pm.expect(data).to.have.property('created_at');",
+											"    pm.expect(data).to.have.property('updated_at');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "1dd3353d-8f4f-4bf8-89ef-2e9a2d60faa9",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"richmond_oyen236@gmail.com\",\n    \"first_name\": \"Oluwolelehyu\",\n    \"last_name\": \"Oyeniyimue\",\n    \"phone\": \"0008057037413\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{base_url}}/customer",
+								"description": "The Customers API allows you create and manage customers on your integration.\n\n#### Create Customer\n\nCreate a customer on your integration\n\nEndpoint: /customer  \nMethod: POST\n\n##### Customer Validation\n\nThe _first_name_, _last_name_ and _phone_ are optional parameters. However, when creating a customer that would be assigned to a Dedicated Virtual Account, then these parameters become compulsory or necessary.\n\n#### Header\n\n| Param | Type | Required? | Decription |\n| --- | --- | --- | --- |\n| _authorization_ | string | Yes | Set value to _Bearer SECRET_KEY_ |\n| _content-type_ | string | Yes | Set value to _application/json_ |\n\n#### Body Param\n\n| Param | Type | Required? | Decription |\n| --- | --- | --- | --- |\n| _email_ | string | Yes | Customer's email address |\n| _first_name_ | string | Yes | Customer's first name |\n| _last_name_ | string | Yes | Customer's last name |\n| _phone_ | string | No | Customer's phone number |\n| _metadata_ | string | No | A set of key/value pairs that you can attach to the customer. It can be used to store additional information in a structured format. |"
+							},
+							"response": []
+						},
+						{
+							"name": "Create Customer with empty email field",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "1ac7bc82-b4e8-4bd7-b7ab-0ae550643ef4",
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {",
+											"    pm.response.to.have.status(400);",
+											"});",
+											"",
+											"pm.test(\"Response content type is application/json\", function () {",
+											"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+											"});",
+											"",
+											"pm.test(\"Response has 'status' property of type boolean\", function () {",
+											"    pm.expect(pm.response.json()).to.have.property('status').that.is.a('boolean');",
+											"});",
+											"",
+											"pm.test(\"Response has 'message' property\", function () {",
+											"    pm.expect(pm.response.json()).to.have.property('message');",
+											"});",
+											"",
+											"pm.test(\"Response has 'error' property which contains 'email' array\", function () {",
+											"    pm.expect(pm.response.json().error).to.have.property('email').that.is.an('array');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "dd2d65ba-76dc-44a1-a04c-61b7abebcbb9",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"\",\n    \"first_name\": \"Oluwolemi\",\n    \"last_name\": \"Oyeniyimi\",\n    \"phone\": \"08057035414\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{base_url}}/customer",
+								"description": "The Customers API allows you create and manage customers on your integration.\n\n#### Create Customer\n\nCreate a customer on your integration\n\nEndpoint: /customer  \nMethod: POST\n\n##### Customer Validation\n\nThe _first_name_, _last_name_ and _phone_ are optional parameters. However, when creating a customer that would be assigned to a Dedicated Virtual Account, then these parameters become compulsory or necessary.\n\n#### Header\n\n| Param | Type | Required? | Decription |\n| --- | --- | --- | --- |\n| _authorization_ | string | Yes | Set value to _Bearer SECRET_KEY_ |\n| _content-type_ | string | Yes | Set value to _application/json_ |\n\n#### Body Param\n\n| Param | Type | Required? | Decription |\n| --- | --- | --- | --- |\n| _email_ | string | Yes | Customer's email address |\n| _first_name_ | string | Yes | Customer's first name |\n| _last_name_ | string | Yes | Customer's last name |\n| _phone_ | string | No | Customer's phone number |\n| _metadata_ | string | No | A set of key/value pairs that you can attach to the customer. It can be used to store additional information in a structured format. |"
+							},
+							"response": []
+						},
+						{
+							"name": "Create Customer with empty first name field",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "158d3697-ee03-43fb-9d06-8ceba176522b",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Response body is a JSON object\", function () {",
+											"    pm.expect(pm.response.json()).to.be.an('object');",
+											"});",
+											"",
+											"pm.test(\"Response contains 'status' property\", function () {",
+											"    pm.expect(pm.response.json()).to.have.property('status');",
+											"});",
+											"",
+											"pm.test(\"Response contains 'message' property\", function () {",
+											"    pm.expect(pm.response.json()).to.have.property('message');",
+											"});",
+											"",
+											"pm.test(\"Response contains 'data' property\", function () {",
+											"    pm.expect(pm.response.json()).to.have.property('data');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "db89bedd-0c66-4cf7-a9d7-5ef34dc0ef8c",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"richmond_oyen653@gmail.com\",\n    \"first_name\": \"\",\n    \"last_name\": \"Oyeniyimu\",\n    \"phone\": \"08057037412\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{base_url}}/customer",
+								"description": "The Customers API allows you create and manage customers on your integration.\n\n#### Create Customer\n\nCreate a customer on your integration\n\nEndpoint: /customer  \nMethod: POST\n\n##### Customer Validation\n\nThe _first_name_, _last_name_ and _phone_ are optional parameters. However, when creating a customer that would be assigned to a Dedicated Virtual Account, then these parameters become compulsory or necessary.\n\n#### Header\n\n| Param | Type | Required? | Decription |\n| --- | --- | --- | --- |\n| _authorization_ | string | Yes | Set value to _Bearer SECRET_KEY_ |\n| _content-type_ | string | Yes | Set value to _application/json_ |\n\n#### Body Param\n\n| Param | Type | Required? | Decription |\n| --- | --- | --- | --- |\n| _email_ | string | Yes | Customer's email address |\n| _first_name_ | string | Yes | Customer's first name |\n| _last_name_ | string | Yes | Customer's last name |\n| _phone_ | string | No | Customer's phone number |\n| _metadata_ | string | No | A set of key/value pairs that you can attach to the customer. It can be used to store additional information in a structured format. |"
+							},
+							"response": []
+						},
+						{
+							"name": "Create Customer with empty last name field",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "df3d0dda-fb84-44ad-90e0-94ed070c801e",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Response is an object with status, message, and data properties\", function () {",
+											"    pm.expect(pm.response.json()).to.be.an('object').that.has.all.keys('status', 'message', 'data');",
+											"});",
+											"",
+											"pm.test(\"Data property is an object with email, domain, customer_code, id, created_at, and updated_at properties\", function () {",
+											"    pm.expect(pm.response.json().data).to.be.an('object').that.has.all.keys('email', 'domain', 'customer_code', 'id', 'created_at', 'updated_at');",
+											"});",
+											"",
+											"pm.test(\"Content-Type is application/json\", function () {",
+											"    pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "cbeccd8a-5e9e-4f08-98a1-e0104c41d5a7",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"richmond_oyen134@gmail.com\",\n    \"first_name\": \"Oluwoleme\",\n    \"last_name\": \"\",\n    \"phone\": \"08057067433\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{base_url}}/customer",
+								"description": "The Customers API allows you create and manage customers on your integration.\n\n#### Create Customer\n\nCreate a customer on your integration\n\nEndpoint: /customer  \nMethod: POST\n\n##### Customer Validation\n\nThe _first_name_, _last_name_ and _phone_ are optional parameters. However, when creating a customer that would be assigned to a Dedicated Virtual Account, then these parameters become compulsory or necessary.\n\n#### Header\n\n| Param | Type | Required? | Decription |\n| --- | --- | --- | --- |\n| _authorization_ | string | Yes | Set value to _Bearer SECRET_KEY_ |\n| _content-type_ | string | Yes | Set value to _application/json_ |\n\n#### Body Param\n\n| Param | Type | Required? | Decription |\n| --- | --- | --- | --- |\n| _email_ | string | Yes | Customer's email address |\n| _first_name_ | string | Yes | Customer's first name |\n| _last_name_ | string | Yes | Customer's last name |\n| _phone_ | string | No | Customer's phone number |\n| _metadata_ | string | No | A set of key/value pairs that you can attach to the customer. It can be used to store additional information in a structured format. |"
+							},
+							"response": []
+						},
+						{
+							"name": "Create Customer with empty phone number field",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "0654c459-5fba-499c-9fc3-b2cad501cb4e",
+										"exec": [
+											"pm.test(\"Response status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Response has a 'status' property of type boolean\", function () {",
+											"    pm.expect(pm.response.json()).to.have.property('status').that.is.a('boolean');",
+											"});",
+											"",
+											"pm.test(\"Response has a 'message' property of type string\", function () {",
+											"    pm.expect(pm.response.json()).to.have.property('message').that.is.a('string');",
+											"});",
+											"",
+											"pm.test(\"Response has a 'data' property that is an object\", function () {",
+											"    pm.expect(pm.response.json()).to.have.property('data').that.is.an('object');",
+											"});",
+											"",
+											"pm.test(\"Each property in 'data' has the correct data type\", function () {",
+											"    var data = pm.response.json().data;",
+											"    Object.keys(data).forEach(function(key) {",
+											"        if (key === 'id') {",
+											"            pm.expect(data[key]).to.be.a('number');",
+											"        } else {",
+											"            pm.expect(data[key]).to.be.a('string');",
+											"        }",
+											"    });",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "68ac4a88-e804-4328-af31-f78552e7cde5",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"richmond_oyen28@gmail.com\",\n    \"first_name\": \"Oluwoleewe\",\n    \"last_name\": \"Oyeniyiew\",\n    \"phone\": \"\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{base_url}}/customer",
+								"description": "The Customers API allows you create and manage customers on your integration.\n\n#### Create Customer\n\nCreate a customer on your integration\n\nEndpoint: /customer  \nMethod: POST\n\n##### Customer Validation\n\nThe _first_name_, _last_name_ and _phone_ are optional parameters. However, when creating a customer that would be assigned to a Dedicated Virtual Account, then these parameters become compulsory or necessary.\n\n#### Header\n\n| Param | Type | Required? | Decription |\n| --- | --- | --- | --- |\n| _authorization_ | string | Yes | Set value to _Bearer SECRET_KEY_ |\n| _content-type_ | string | Yes | Set value to _application/json_ |\n\n#### Body Param\n\n| Param | Type | Required? | Decription |\n| --- | --- | --- | --- |\n| _email_ | string | Yes | Customer's email address |\n| _first_name_ | string | Yes | Customer's first name |\n| _last_name_ | string | Yes | Customer's last name |\n| _phone_ | string | No | Customer's phone number |\n| _metadata_ | string | No | A set of key/value pairs that you can attach to the customer. It can be used to store additional information in a structured format. |"
+							},
+							"response": []
+						},
+						{
+							"name": "Create Customer with empty field",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "a969491f-9c28-4f6e-8f92-2e793ce5091b",
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {",
+											"    pm.response.to.have.status(400);",
+											"}); ",
+											"",
+											"pm.test(\"Response is a JSON object with status, message, and error properties\", function () {",
+											"    pm.expect(pm.response.json()).to.be.an('object').that.has.all.keys('status', 'message', 'error');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "62e5019c-ebf4-4d58-824c-a17a384833b6",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"\",\n    \"first_name\": \"\",\n    \"last_name\": \"\",\n    \"phone\": \"\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{base_url}}/customer",
+								"description": "The Customers API allows you create and manage customers on your integration.\n\n#### Create Customer\n\nCreate a customer on your integration\n\nEndpoint: /customer  \nMethod: POST\n\n##### Customer Validation\n\nThe _first_name_, _last_name_ and _phone_ are optional parameters. However, when creating a customer that would be assigned to a Dedicated Virtual Account, then these parameters become compulsory or necessary.\n\n#### Header\n\n| Param | Type | Required? | Decription |\n| --- | --- | --- | --- |\n| _authorization_ | string | Yes | Set value to _Bearer SECRET_KEY_ |\n| _content-type_ | string | Yes | Set value to _application/json_ |\n\n#### Body Param\n\n| Param | Type | Required? | Decription |\n| --- | --- | --- | --- |\n| _email_ | string | Yes | Customer's email address |\n| _first_name_ | string | Yes | Customer's first name |\n| _last_name_ | string | Yes | Customer's last name |\n| _phone_ | string | No | Customer's phone number |\n| _metadata_ | string | No | A set of key/value pairs that you can attach to the customer. It can be used to store additional information in a structured format. |"
+							},
+							"response": []
+						}
+					],
+					"id": "5fa02a7a-4515-4684-9c7e-e954c3bd8e19"
+				},
+				{
+					"name": "Sub Account Create",
+					"item": [
+						{
+							"name": "Sub Account Create",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "c615c9c7-a820-4e6e-a36b-80db101f079c",
+										"exec": [
+											"pm.test(\"Response status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Response is a JSON object with success property\", function () {",
+											"    pm.expect(pm.response.json()).to.be.an('object').that.has.property('success');",
+											"});",
+											"",
+											"pm.test(\"Response is a JSON object with message property\", function () {",
+											"    pm.expect(pm.response.json()).to.be.an('object').that.has.property('message');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "d2cfc1c7-da27-44d2-bb9a-e9bd6ec5c364",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{sk}}"
+									}
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"toluxsys34@yahoo.ca\",\n    \"bank_name\": \"StanbicIBTC Bank\",\n    \"bank_code\": \"221\",\n    \"account_number\": \"0045795119\",\n    \"currency\": \"NGN\",\n    \"split_type\": \"percentage\",\n    \"split_rate\": \"20\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{base_url}}/subaccount/create"
+							},
+							"response": []
+						},
+						{
+							"name": "Sub Account Create with invalid email",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "6d48a2c4-febb-474b-a6d7-9811f0fff7a9",
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {",
+											"    pm.response.to.have.status(400);",
+											"});",
+											" ",
+											"pm.test(\"Response is in JSON format\", function () {",
+											"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+											"});",
+											"",
+											"pm.test(\"Response has status property with a boolean value\", function () {",
+											"    pm.expect(pm.response.json()).to.have.property('status').that.is.a('boolean');",
+											"});",
+											"",
+											"pm.test(\"Response has message property as a string\", function () {",
+											"    pm.expect(pm.response.json()).to.have.property('message').that.is.a('string');",
+											"});",
+											"",
+											"pm.test(\"Response has error property as an object\", function () {",
+											"    pm.expect(pm.response.json()).to.have.property('error').that.is.an('object');",
+											"});",
+											"",
+											"pm.test(\"Error property has email property as an array\", function () {",
+											"    pm.expect(pm.response.json().error).to.have.property('email').that.is.an('array');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "06f7dcde-c738-4f44-a29a-4ed007caaa18",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{sk}}"
+									}
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"toluxsys@@yahoo.ca\",\n    \"bank_name\": \"GTBank Plc\",\n    \"bank_code\": \"000013\",\n    \"account_number\": \"0050883605\",\n    \"currency\": \"NGN\",\n    \"split_type\": \"percentage\",\n    \"split_rate\": \"20\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{base_url}}/subaccount/create"
+							},
+							"response": []
+						},
+						{
+							"name": "Sub Account Create with invalid bank name",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "e50bfad7-24fc-42d5-b249-8c2712d44b3d",
+										"exec": [
+											"pm.test(\"Response status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"}); ",
+											"",
+											"pm.test(\"Response is a JSON object with success property\", function () {",
+											"    pm.expect(pm.response.json()).to.be.an('object').that.has.property('success');",
+											"});",
+											"",
+											"pm.test(\"Response is a JSON object with message property\", function () {",
+											"    pm.expect(pm.response.json()).to.be.an('object').that.has.property('message');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "59dae5a9-f9c5-4095-876f-b10dfcc94fc9",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{sk}}"
+									}
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"toluxsys@yahoo.ca\",\n    \"bank_name\": \"GT Plc\",\n    \"bank_code\": \"000013\",\n    \"account_number\": \"0050883605\",\n    \"currency\": \"NGN\",\n    \"split_type\": \"percentage\",\n    \"split_rate\": \"20\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{base_url}}/subaccount/create"
+							},
+							"response": []
+						},
+						{
+							"name": "Sub Account Create with invalid bank code",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "f8562d43-5943-41b6-9313-3c21f874ec84",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Response is a JSON object with success property\", function () {",
+											"    pm.expect(pm.response.json()).to.be.an('object').that.has.property('success');",
+											"}); ",
+											"",
+											"pm.test(\"Response is a JSON object with message property\", function () {",
+											"    pm.expect(pm.response.json()).to.be.an('object').that.has.property('message');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "7a396bdb-7295-4847-9caf-0cb7e8556b29",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{sk}}"
+									}
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"toluxsys@yahoo.ca\",\n    \"bank_name\": \"GTBank Plc\",\n    \"bank_code\": \"100013\",\n    \"account_number\": \"0050883605\",\n    \"currency\": \"NGN\",\n    \"split_type\": \"percentage\",\n    \"split_rate\": \"20\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{base_url}}/subaccount/create"
+							},
+							"response": []
+						},
+						{
+							"name": "Sub Account Create with invalid account number",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "7f441c73-67dd-4fdb-8c21-7cf33e52e6be",
+										"exec": [
+											"pm.test(\"Response status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											" ",
+											"pm.test(\"Response is a JSON object with success property\", function () {",
+											"    pm.expect(pm.response.json()).to.be.an('object').that.has.property('success');",
+											"});",
+											"",
+											"pm.test(\"Response is a JSON object with message property\", function () {",
+											"    pm.expect(pm.response.json()).to.be.an('object').that.has.property('message');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "3284c300-2dd2-4480-8978-81ab513a9aa8",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{sk}}"
+									}
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"toluxsys@yahoo.ca\",\n    \"bank_name\": \"GTBank Plc\",\n    \"bank_code\": \"000013\",\n    \"account_number\": \"100234568763\",\n    \"currency\": \"NGN\",\n    \"split_type\": \"percentage\",\n    \"split_rate\": \"20\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{base_url}}/subaccount/create"
+							},
+							"response": []
+						},
+						{
+							"name": "Sub Account Create with invalid currency",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "f91aa0a6-a8eb-490a-9c8e-16424b59a48d",
+										"exec": [
+											"pm.test(\"Status code is 401\", function () {",
+											"    pm.response.to.have.status(401);",
+											"});",
+											"",
+											"pm.test(\"Response is a JSON object with success property\", function () {",
+											"    pm.expect(pm.response.json()).to.be.an('object').that.has.property('success');",
+											"});",
+											" ",
+											"pm.test(\"Response is a JSON object with message property\", function () {",
+											"    pm.expect(pm.response.json()).to.be.an('object').that.has.property('message');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "b13012e8-2862-4b7d-9b93-911b6024251c",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{sk}}"
+									}
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"toluxsys@yahoo.ca\",\n    \"bank_name\": \"GTBank Plc\",\n    \"bank_code\": \"000013\",\n    \"account_number\": \"0050883605\",\n    \"currency\": \"NGU\",\n    \"split_type\": \"percentage\",\n    \"split_rate\": \"20\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{base_url}}/subaccount/create"
+							},
+							"response": []
+						},
+						{
+							"name": "Sub Account Create with empty email field",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "14cacf5c-8ced-4231-a3e4-9f833eb5f552",
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {",
+											"    pm.response.to.have.status(400);",
+											"});",
+											"",
+											"pm.test(\"Response is an object with status, message, and error properties\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData).to.be.an('object').that.has.all.keys('status', 'message', 'error');",
+											"}); ",
+											"",
+											"pm.test(\"Error email field is an array\", function () {",
+											"    var errorEmail = pm.response.json().error.email;",
+											"    pm.expect(errorEmail).to.be.an('array');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "e8b7a1b0-3bba-4021-b8a9-90177a2d5c4b",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{sk}}"
+									}
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"\",\n    \"bank_name\": \"GTBank Plc\",\n    \"bank_code\": \"000013\",\n    \"account_number\": \"0050883605\",\n    \"currency\": \"NGN\",\n    \"split_type\": \"percentage\",\n    \"split_rate\": \"20\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{base_url}}/subaccount/create"
+							},
+							"response": []
+						},
+						{
+							"name": "Sub Account Create with empty bank name field",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "b8173fc4-cb84-41ee-a1f9-7ce9c4d18040",
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {",
+											"    pm.response.to.have.status(400);",
+											"}); ",
+											"",
+											"pm.test(\"Response is in JSON format\", function () {",
+											"    pm.response.to.have.header('Content-Type', 'application/json');",
+											"});",
+											"",
+											"pm.test(\"Response has status property\", function () {",
+											"    pm.expect(pm.response.json()).to.have.property('status');",
+											"});",
+											"",
+											"pm.test(\"Response has error property with bank_name array\", function () {",
+											"    pm.expect(pm.response.json().error).to.have.property('bank_name').that.is.an('array');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "a7d9e511-7787-4d0d-991f-066a3f0d832f",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{sk}}"
+									}
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"toluxsys@yahoo.ca\",\n    \"bank_name\": \"\",\n    \"bank_code\": \"000013\",\n    \"account_number\": \"0050883605\",\n    \"currency\": \"NGN\",\n    \"split_type\": \"percentage\",\n    \"split_rate\": \"20\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{base_url}}/subaccount/create"
+							},
+							"response": []
+						},
+						{
+							"name": "Sub Account Create with empty bank code field",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "7475d6b4-e7ca-4ae9-aebb-dcd51e91a097",
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {",
+											"    pm.response.to.have.status(400);",
+											"});  ",
+											"",
+											"pm.test(\"Response is in JSON format\", function () {",
+											"    pm.response.to.have.header('Content-Type', 'application/json');",
+											"});",
+											"",
+											"pm.test(\"Response has status property of type boolean\", function () {",
+											"    pm.expect(pm.response.json()).to.have.property('status').that.is.a('boolean');",
+											"});",
+											"",
+											"pm.test(\"Error object has bank_code property\", function () {",
+											"    pm.expect(pm.response.json().error).to.have.property('bank_code').to.eql([\"The bank code field is required.\"]);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "b15f7b9f-1b12-476b-b9ed-28dc25441b65",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{sk}}"
+									}
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"toluxsys@yahoo.ca\",\n    \"bank_name\": \"GTBank Plc\",\n    \"bank_code\": \"\",\n    \"account_number\": \"0050883605\",\n    \"currency\": \"NGN\",\n    \"split_type\": \"percentage\",\n    \"split_rate\": \"20\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{base_url}}/subaccount/create"
+							},
+							"response": []
+						},
+						{
+							"name": "Sub Account Create with empty account number field",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "301ecf06-f7bd-4984-8c7a-c6d06f8a3c5c",
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {",
+											"    pm.response.to.have.status(400);",
+											"});",
+											"",
+											"pm.test(\"Response is a JSON object with status, message, and error properties\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData).to.be.an('object').that.has.all.keys('status', 'message', 'error');",
+											"}); "
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "52401495-9820-4515-823b-5ed3a42073ab",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{sk}}"
+									}
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"toluxsys@yahoo.ca\",\n    \"bank_name\": \"GTBank Plc\",\n    \"bank_code\": \"000013\",\n    \"account_number\": \"\",\n    \"currency\": \"NGN\",\n    \"split_type\": \"percentage\",\n    \"split_rate\": \"20\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{base_url}}/subaccount/create"
+							},
+							"response": []
+						},
+						{
+							"name": "Sub Account Create with empty currency field",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "8335851b-826e-47e6-b249-6d3cf394f497",
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {",
+											"    pm.response.to.have.status(400);",
+											"}); ",
+											"",
+											"pm.test(\"Response is in JSON format\", function () {",
+											"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+											"});",
+											"",
+											"pm.test(\"Response has status property of type boolean\", function () {",
+											"    pm.expect(pm.response.json()).to.have.property('status').that.is.a('boolean');",
+											"});",
+											"",
+											"pm.test(\"Response has message property of type string\", function () {",
+											"    pm.expect(pm.response.json()).to.have.property('message').that.is.a('string');",
+											"});",
+											"",
+											"pm.test(\"Error property is an object with currency property as an array\", function () {",
+											"    pm.expect(pm.response.json().error).to.be.an('object').that.has.property('currency').that.is.an('array');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "764da16b-ed6d-446d-ad58-bdf15cb10782",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{sk}}"
+									}
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"toluxsys@yahoo.ca\",\n    \"bank_name\": \"GTBank Plc\",\n    \"bank_code\": \"000013\",\n    \"account_number\": \"0050883605\",\n    \"currency\": \"\",\n    \"split_type\": \"percentage\",\n    \"split_rate\": \"20\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{base_url}}/subaccount/create"
+							},
+							"response": []
+						},
+						{
+							"name": "Sub Account Create with empty split type field",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "66641de8-3d08-43a6-a0fa-32e0bc37f052",
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {",
+											"    pm.response.to.have.status(400);",
+											"});",
+											"",
+											"pm.test(\"Response is in JSON format\", function () {",
+											"    pm.response.to.have.header(\"Content-Type\", \"application/json\");",
+											"});",
+											" ",
+											"pm.test(\"Response has status property of type boolean\", function () {",
+											"    pm.expect(pm.response.json()).to.have.property('status').that.is.a('boolean');",
+											"});",
+											"",
+											"pm.test(\"Response has message property of type string\", function () {",
+											"    pm.expect(pm.response.json()).to.have.property('message').that.is.a('string');",
+											"});",
+											"",
+											"pm.test(\"Response has error property that is an object\", function () {",
+											"    pm.expect(pm.response.json()).to.have.property('error').that.is.an('object');",
+											"});",
+											"",
+											"pm.test(\"Error property has split_type property that is an array\", function () {",
+											"    pm.expect(pm.response.json().error).to.have.property('split_type').that.is.an('array');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "9bb3aa5c-2471-4e1d-b4ba-8d4c781a9939",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{sk}}"
+									}
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"toluxsys@yahoo.ca\",\n    \"bank_name\": \"GTBank Plc\",\n    \"bank_code\": \"000013\",\n    \"account_number\": \"0050883605\",\n    \"currency\": \"NGN\",\n    \"split_type\": \"\",\n    \"split_rate\": \"20\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{base_url}}/subaccount/create"
+							},
+							"response": []
+						},
+						{
+							"name": "Sub Account Create with empty split rate field",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "2857bf3b-8ab3-4e50-a2fc-e1786ff7f8ef",
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {",
+											"    pm.response.to.have.status(400);",
+											"});",
+											"",
+											"pm.test(\"Response is an object with status, message, and error properties\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData).to.be.an('object');",
+											"    pm.expect(jsonData).to.have.property('status');",
+											"    pm.expect(jsonData).to.have.property('message');",
+											"    pm.expect(jsonData).to.have.property('error');",
+											"}); ",
+											"",
+											"pm.test(\"error property is an object with split_rate array\", function () {",
+											"    var error = pm.response.json().error;",
+											"    pm.expect(error).to.be.an('object').that.has.property('split_rate').that.is.an('array');",
+											"    pm.expect(error.split_rate.length).to.be.above(0);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "5d6e1d70-2808-43f6-972f-9310d453add5",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{sk}}"
+									}
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"toluxsys@yahoo.ca\",\n    \"bank_name\": \"GTBank Plc\",\n    \"bank_code\": \"000013\",\n    \"account_number\": \"0050883605\",\n    \"currency\": \"NGN\",\n    \"split_type\": \"percentage\",\n    \"split_rate\": \"\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{base_url}}/subaccount/create"
+							},
+							"response": []
+						},
+						{
+							"name": "Sub Account Create with empty fields",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "159cacf0-23d5-400d-8c49-60d84ad825aa",
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {",
+											"    pm.response.to.have.status(400);",
+											"});",
+											"",
+											"pm.test(\"Response has a JSON content type\", function () {",
+											"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+											"}); ",
+											"",
+											"pm.test(\"Response contains status, message, and error properties\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData).to.have.property(\"status\");",
+											"    pm.expect(jsonData).to.have.property(\"message\");",
+											"    pm.expect(jsonData).to.have.property(\"error\");",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "69a5a926-2819-41d2-9f77-bd3e5814c83f",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{sk}}"
+									}
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"\",\n    \"bank_name\": \"\",\n    \"bank_code\": \"\",\n    \"account_number\": \"\",\n    \"currency\": \"\",\n    \"split_type\": \"\",\n    \"split_rate\": \"\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{base_url}}/subaccount/create"
+							},
+							"response": []
+						}
+					],
+					"id": "875a2617-4851-4643-b29a-9b10f41d4429"
+				},
+				{
+					"name": "List Customers",
+					"item": [
+						{
+							"name": "List Customers",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "e08a8924-1361-4d6d-b0ed-93e098bb4c7b",
+										"exec": [
+											"pm.test(\"Response status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											" ",
+											"pm.test(\"Response has content type of application/json\", function () {",
+											"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+											"});",
+											"",
+											"pm.test(\"Response is an object with status, message, and data properties\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData).to.be.an('object').that.has.all.keys('status', 'message', 'data');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "8bebebb4-a648-4499-9633-020d4c7e7542",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{sk}}"
+									}
+								},
+								"method": "GET",
+								"header": [],
+								"url": "{{base_url}}/customer"
+							},
+							"response": []
+						}
+					],
+					"id": "c3a71c80-4b58-45d2-9b0f-00c14dd403cb"
+				},
+				{
+					"name": "Fetch Customers",
+					"item": [
+						{
+							"name": "Fetch Customer",
+							"id": "2d2c6446-21b8-4b4b-b699-9fb531d1a47c",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{sk}}"
+									}
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/customer/:{email_or_code}",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"customer",
+										":{email_or_code}"
+									],
+									"variable": [
+										{
+											"id": "5d82f2fc-5083-46d1-a681-fc48d876a431",
+											"key": "{email_or_code}",
+											"value": null
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Fetch Customer with invalid email or code",
+							"id": "c086f220-75b6-4391-9887-11be852ffcac",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{sk}}"
+									}
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/customer/:{email_or_code}",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"customer",
+										":{email_or_code}"
+									],
+									"variable": [
+										{
+											"id": "5d82f2fc-5083-46d1-a681-fc48d876a431",
+											"key": "{email_or_code}",
+											"value": null
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Fetch Customer with empty email or code",
+							"id": "ccacec3b-a7f4-4185-a888-62f1eaa98dba",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{sk}}"
+									}
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/customer/:{email_or_code}",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"customer",
+										":{email_or_code}"
+									],
+									"variable": [
+										{
+											"id": "5d82f2fc-5083-46d1-a681-fc48d876a431",
+											"key": "{email_or_code}",
+											"value": null
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"id": "54b9961d-6add-49ab-afda-b8d7fe862f99"
+				},
+				{
+					"name": "Update Customer",
+					"item": [
+						{
+							"name": "Update Customer",
+							"id": "9cb8bc18-04a9-4a7d-8081-44da4d4dd177",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"first_name\": \"Budpay\",\n    \"last_name\": \"Checkout\",\n    \"phone\": \"08057037413\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/customer/:code",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"customer",
+										":code"
+									],
+									"variable": [
+										{
+											"id": "f047d0cc-6097-4b0a-85b4-9886305f69e6",
+											"key": "code",
+											"value": null
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Customer with invalid phone number",
+							"id": "6f6f1e05-b576-49ac-8fca-89f643e100a2",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"first_name\": \"Budpay\",\n    \"last_name\": \"Checkout\",\n    \"phone\": \"08057037413\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/customer/:code",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"customer",
+										":code"
+									],
+									"variable": [
+										{
+											"id": "f047d0cc-6097-4b0a-85b4-9886305f69e6",
+											"key": "code",
+											"value": null
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Customer with empty phone number",
+							"id": "06807053-d845-4b52-bacc-282260d630d4",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"first_name\": \"Budpay\",\n    \"last_name\": \"Checkout\",\n    \"phone\": \"08057037413\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/customer/:code",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"customer",
+										":code"
+									],
+									"variable": [
+										{
+											"id": "f047d0cc-6097-4b0a-85b4-9886305f69e6",
+											"key": "code",
+											"value": null
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Customer with empty first name",
+							"id": "ec2e5ddb-77f4-4831-98b3-8f3e597bdc47",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"first_name\": \"Budpay\",\n    \"last_name\": \"Checkout\",\n    \"phone\": \"08057037413\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/customer/:code",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"customer",
+										":code"
+									],
+									"variable": [
+										{
+											"id": "f047d0cc-6097-4b0a-85b4-9886305f69e6",
+											"key": "code",
+											"value": null
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Customer with empty last name",
+							"id": "000eb45e-2685-4e2c-b05e-dda63260294e",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"first_name\": \"Budpay\",\n    \"last_name\": \"Checkout\",\n    \"phone\": \"08057037413\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/customer/:code",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"customer",
+										":code"
+									],
+									"variable": [
+										{
+											"id": "f047d0cc-6097-4b0a-85b4-9886305f69e6",
+											"key": "code",
+											"value": null
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Customer with empty code",
+							"id": "a4804247-17eb-43a5-a2d2-6faeb561d90e",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"first_name\": \"Budpay\",\n    \"last_name\": \"Checkout\",\n    \"phone\": \"08057037413\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/customer/:code",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"customer",
+										":code"
+									],
+									"variable": [
+										{
+											"id": "f047d0cc-6097-4b0a-85b4-9886305f69e6",
+											"key": "code",
+											"value": null
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Customer invalid code",
+							"id": "e9f46bce-80b8-49e4-bea2-90475556ebbb",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"first_name\": \"Budpay\",\n    \"last_name\": \"Checkout\",\n    \"phone\": \"08057037413\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/customer/:code",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"customer",
+										":code"
+									],
+									"variable": [
+										{
+											"id": "f047d0cc-6097-4b0a-85b4-9886305f69e6",
+											"key": "code",
+											"value": null
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Customer empty fields",
+							"id": "320dbbbf-40bd-4b00-9f35-cdd0ca037d0b",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"first_name\": \"Budpay\",\n    \"last_name\": \"Checkout\",\n    \"phone\": \"08057037413\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/customer/:code",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"customer",
+										":code"
+									],
+									"variable": [
+										{
+											"id": "f047d0cc-6097-4b0a-85b4-9886305f69e6",
+											"key": "code",
+											"value": null
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"id": "a66687f3-299e-4215-84b3-caf19bdd3a95"
+				},
+				{
+					"name": "Validate Customer",
+					"item": [
+						{
+							"name": "Validate Customer",
+							"id": "556f1a0a-540a-417f-91b5-2b7d82c6e06b",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"country\": \"NG\",\n  \"type\": \"bank_account\",\n  \"account_number\": \"0123456789\",\n  \"bvn\": \"20012345677\",\n  \"bank_code\": \"007\",\n  \"first_name\": \"Asta\",\n  \"last_name\": \"Lavista\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/customer/:code/identification",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"customer",
+										":code",
+										"identification"
+									],
+									"variable": [
+										{
+											"id": "e0939ab8-fd9c-473e-ae51-143077e7bc10",
+											"key": "code",
+											"value": null
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Validate Customer with invalid currency",
+							"id": "996b7525-0da2-4156-9f90-89541bdd276d",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"country\": \"NG\",\n  \"type\": \"bank_account\",\n  \"account_number\": \"0123456789\",\n  \"bvn\": \"20012345677\",\n  \"bank_code\": \"007\",\n  \"first_name\": \"Asta\",\n  \"last_name\": \"Lavista\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/customer/:code/identification",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"customer",
+										":code",
+										"identification"
+									],
+									"variable": [
+										{
+											"id": "e0939ab8-fd9c-473e-ae51-143077e7bc10",
+											"key": "code",
+											"value": null
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Validate Customer with invalid type",
+							"id": "79373018-ab3b-4663-854d-74b6a3a2dbd9",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"country\": \"NG\",\n  \"type\": \"bank_account\",\n  \"account_number\": \"0123456789\",\n  \"bvn\": \"20012345677\",\n  \"bank_code\": \"007\",\n  \"first_name\": \"Asta\",\n  \"last_name\": \"Lavista\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/customer/:code/identification",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"customer",
+										":code",
+										"identification"
+									],
+									"variable": [
+										{
+											"id": "e0939ab8-fd9c-473e-ae51-143077e7bc10",
+											"key": "code",
+											"value": null
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Validate Customer with invalid account number",
+							"id": "52b8bb6b-6e79-4b02-8bb6-6f86e4f964c9",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"country\": \"NG\",\n  \"type\": \"bank_account\",\n  \"account_number\": \"0123456789\",\n  \"bvn\": \"20012345677\",\n  \"bank_code\": \"007\",\n  \"first_name\": \"Asta\",\n  \"last_name\": \"Lavista\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/customer/:code/identification",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"customer",
+										":code",
+										"identification"
+									],
+									"variable": [
+										{
+											"id": "e0939ab8-fd9c-473e-ae51-143077e7bc10",
+											"key": "code",
+											"value": null
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Validate Customer with invalid bvn",
+							"id": "870eee63-a8b7-410d-b00f-9819781e7333",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"country\": \"NG\",\n  \"type\": \"bank_account\",\n  \"account_number\": \"0123456789\",\n  \"bvn\": \"20012345677\",\n  \"bank_code\": \"007\",\n  \"first_name\": \"Asta\",\n  \"last_name\": \"Lavista\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/customer/:code/identification",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"customer",
+										":code",
+										"identification"
+									],
+									"variable": [
+										{
+											"id": "e0939ab8-fd9c-473e-ae51-143077e7bc10",
+											"key": "code",
+											"value": null
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Validate Customer with invalid bank code",
+							"id": "1e91b920-519f-4ae2-a523-abed97e05848",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"country\": \"NG\",\n  \"type\": \"bank_account\",\n  \"account_number\": \"0123456789\",\n  \"bvn\": \"20012345677\",\n  \"bank_code\": \"007\",\n  \"first_name\": \"Asta\",\n  \"last_name\": \"Lavista\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/customer/:code/identification",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"customer",
+										":code",
+										"identification"
+									],
+									"variable": [
+										{
+											"id": "e0939ab8-fd9c-473e-ae51-143077e7bc10",
+											"key": "code",
+											"value": null
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Validate Customer with empty country",
+							"id": "86f6f091-28ce-4c56-a770-a0da5ab3c0e8",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"country\": \"NG\",\n  \"type\": \"bank_account\",\n  \"account_number\": \"0123456789\",\n  \"bvn\": \"20012345677\",\n  \"bank_code\": \"007\",\n  \"first_name\": \"Asta\",\n  \"last_name\": \"Lavista\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/customer/:code/identification",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"customer",
+										":code",
+										"identification"
+									],
+									"variable": [
+										{
+											"id": "e0939ab8-fd9c-473e-ae51-143077e7bc10",
+											"key": "code",
+											"value": null
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Validate Customer with empty type",
+							"id": "0fb82390-0917-4383-918f-5d52786ca308",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"country\": \"NG\",\n  \"type\": \"bank_account\",\n  \"account_number\": \"0123456789\",\n  \"bvn\": \"20012345677\",\n  \"bank_code\": \"007\",\n  \"first_name\": \"Asta\",\n  \"last_name\": \"Lavista\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/customer/:code/identification",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"customer",
+										":code",
+										"identification"
+									],
+									"variable": [
+										{
+											"id": "e0939ab8-fd9c-473e-ae51-143077e7bc10",
+											"key": "code",
+											"value": null
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Validate Customer with empty account number",
+							"id": "34e58a76-62b7-4a21-90dc-1f778637d385",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"country\": \"NG\",\n  \"type\": \"bank_account\",\n  \"account_number\": \"0123456789\",\n  \"bvn\": \"20012345677\",\n  \"bank_code\": \"007\",\n  \"first_name\": \"Asta\",\n  \"last_name\": \"Lavista\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/customer/:code/identification",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"customer",
+										":code",
+										"identification"
+									],
+									"variable": [
+										{
+											"id": "e0939ab8-fd9c-473e-ae51-143077e7bc10",
+											"key": "code",
+											"value": null
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Validate Customer with empty bvn",
+							"id": "4a2342d0-814b-44ac-952c-d64472931cb3",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"country\": \"NG\",\n  \"type\": \"bank_account\",\n  \"account_number\": \"0123456789\",\n  \"bvn\": \"20012345677\",\n  \"bank_code\": \"007\",\n  \"first_name\": \"Asta\",\n  \"last_name\": \"Lavista\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/customer/:code/identification",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"customer",
+										":code",
+										"identification"
+									],
+									"variable": [
+										{
+											"id": "e0939ab8-fd9c-473e-ae51-143077e7bc10",
+											"key": "code",
+											"value": null
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Validate Customer with empty bank code",
+							"id": "8feaeebb-09ec-42e3-bb07-f11a7a969323",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"country\": \"NG\",\n  \"type\": \"bank_account\",\n  \"account_number\": \"0123456789\",\n  \"bvn\": \"20012345677\",\n  \"bank_code\": \"007\",\n  \"first_name\": \"Asta\",\n  \"last_name\": \"Lavista\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/customer/:code/identification",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"customer",
+										":code",
+										"identification"
+									],
+									"variable": [
+										{
+											"id": "e0939ab8-fd9c-473e-ae51-143077e7bc10",
+											"key": "code",
+											"value": null
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Validate Customer with empty first name",
+							"id": "6ed2884a-94f0-45d2-aa2a-cbb8819f77d7",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"country\": \"NG\",\n  \"type\": \"bank_account\",\n  \"account_number\": \"0123456789\",\n  \"bvn\": \"20012345677\",\n  \"bank_code\": \"007\",\n  \"first_name\": \"Asta\",\n  \"last_name\": \"Lavista\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/customer/:code/identification",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"customer",
+										":code",
+										"identification"
+									],
+									"variable": [
+										{
+											"id": "e0939ab8-fd9c-473e-ae51-143077e7bc10",
+											"key": "code",
+											"value": null
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Validate Customer with empty last name",
+							"id": "a9511301-10b9-432f-81ca-5292aa9a49d8",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"country\": \"NG\",\n  \"type\": \"bank_account\",\n  \"account_number\": \"0123456789\",\n  \"bvn\": \"20012345677\",\n  \"bank_code\": \"007\",\n  \"first_name\": \"Asta\",\n  \"last_name\": \"Lavista\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/customer/:code/identification",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"customer",
+										":code",
+										"identification"
+									],
+									"variable": [
+										{
+											"id": "e0939ab8-fd9c-473e-ae51-143077e7bc10",
+											"key": "code",
+											"value": null
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Validate Customer with empty code",
+							"id": "95cf0d48-55ca-43b6-b19d-003359cbb3cf",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"country\": \"NG\",\n  \"type\": \"bank_account\",\n  \"account_number\": \"0123456789\",\n  \"bvn\": \"20012345677\",\n  \"bank_code\": \"007\",\n  \"first_name\": \"Asta\",\n  \"last_name\": \"Lavista\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/customer/:code/identification",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"customer",
+										":code",
+										"identification"
+									],
+									"variable": [
+										{
+											"id": "e0939ab8-fd9c-473e-ae51-143077e7bc10",
+											"key": "code",
+											"value": null
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Validate Customer with invalid code",
+							"id": "3a681dc7-864d-488b-b55e-ada50e1fe550",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"country\": \"NG\",\n  \"type\": \"bank_account\",\n  \"account_number\": \"0123456789\",\n  \"bvn\": \"20012345677\",\n  \"bank_code\": \"007\",\n  \"first_name\": \"Asta\",\n  \"last_name\": \"Lavista\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/customer/:code/identification",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"customer",
+										":code",
+										"identification"
+									],
+									"variable": [
+										{
+											"id": "e0939ab8-fd9c-473e-ae51-143077e7bc10",
+											"key": "code",
+											"value": null
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Validate Customer with empty fields",
+							"id": "3c5399e1-3d02-4483-bda6-c7feee6e798a",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"country\": \"NG\",\n  \"type\": \"bank_account\",\n  \"account_number\": \"0123456789\",\n  \"bvn\": \"20012345677\",\n  \"bank_code\": \"007\",\n  \"first_name\": \"Asta\",\n  \"last_name\": \"Lavista\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/customer/:code/identification",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"customer",
+										":code",
+										"identification"
+									],
+									"variable": [
+										{
+											"id": "e0939ab8-fd9c-473e-ae51-143077e7bc10",
+											"key": "code",
+											"value": null
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"id": "4d92702b-245b-44d7-98cc-85f453a31066"
+				}
+			],
+			"id": "c6c9712f-f29b-4243-b60a-71bababb8fc9"
+		},
+		{
+			"name": "Plans",
+			"item": [
+				{
+					"name": "Create Plan",
+					"item": [
+						{
+							"name": "Create Plan",
+							"id": "4499296d-5e1f-4562-b667-48db268bd4be",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Monthly Contribution\",\n    \"interval\": \"monthly\",\n    \"amount\": \"100000\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{base_url}}/plan"
+							},
+							"response": []
+						}
+					],
+					"id": "15921279-4ccf-4b2f-8c92-0a6238467915"
+				},
+				{
+					"name": "List Plans",
+					"id": "059b0fe6-cb4d-4472-b01d-8b0fdd52161e",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{base_url}}/plan"
+					},
+					"response": []
+				},
+				{
+					"name": "Fetch Plan",
+					"id": "589dfd50-cbb4-4887-8ff3-fb8bd0ac2032",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/plan/:id_or_code",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"plan",
+								":id_or_code"
+							],
+							"variable": [
+								{
+									"id": "d66e39bb-e210-4eea-a3b2-8e8da7cbb913",
+									"key": "id_or_code",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Plan",
+					"id": "5318d8d5-f76c-43bf-a060-024161ecab9f",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \"name\": \"Monthly Contribution Final\" }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/plan/:id_or_code",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"plan",
+								":id_or_code"
+							],
+							"variable": [
+								{
+									"id": "fa3a0c18-6982-419f-9e5b-e6890ef18515",
+									"key": "id_or_code",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "8d4c19d1-51c4-4c3c-9e30-a0b09c1825e8"
+		},
+		{
+			"name": "Subscriptions",
+			"item": [
+				{
+					"name": "List Subscription",
+					"id": "8b8b5488-1195-4416-8e0e-a1115d7d7fc6",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{base_url}}/subscription"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Subscription",
+					"id": "fad7840f-ec49-4ada-8895-45b279601ac8",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"customer\": \"CUS_ig2yjfnhtphlgt0\",\n    \"plan\": \"PLN_z1fz5o0uceatbv0\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/subscription"
+					},
+					"response": []
+				}
+			],
+			"id": "2b2e871b-ffa9-44d9-8ea8-586c024bfe5f"
+		},
+		{
+			"name": "Settlements",
+			"item": [
+				{
+					"name": "List Settlements",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "88f92c92-d1a1-4d3a-8fa2-4caa36b1147d",
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"}); ",
+									"",
+									"pm.test(\"Response is in JSON format\", function () {",
+									"    pm.response.to.have.header('Content-Type', 'application/json');",
+									"});",
+									"",
+									"pm.test(\"Response has a status property of type boolean\", function () {",
+									"    pm.expect(pm.response.json()).to.have.property('status').that.is.a('boolean');",
+									"});",
+									"",
+									"pm.test(\"Response has a message property of type string\", function () {",
+									"    pm.expect(pm.response.json()).to.have.property('message').that.is.a('string');",
+									"});",
+									"",
+									"pm.test(\"Response has a data property which is an array\", function () {",
+									"    pm.expect(pm.response.json()).to.have.property('data').that.is.an('array');",
+									"});",
+									"",
+									"pm.test(\"Response has a meta property which is an object\", function () {",
+									"    pm.expect(pm.response.json()).to.have.property('meta').that.is.an('object');",
+									"});",
+									"",
+									"pm.test(\"Meta object has a total property of type number\", function () {",
+									"    pm.expect(pm.response.json().meta).to.have.property('total').that.is.a('number');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "a100d684-be91-44b6-a76f-5b3cd926b0e6",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{base_url}}/settlement",
+						"description": "The Settlements API allows you fetch all your settlement history.\n\n#### List Settlements\n\nList all your business Settlements.\n\nEndpoint: /settlement  \nMethod: GET\n\n#### Header\n\n| Param | Type | Required? | Decription |\n| --- | --- | --- | --- |\n| _authorization_ | string | Yes | Set value to _Bearer SECRET_KEY_ |"
+					},
+					"response": []
+				},
+				{
+					"name": "Settlements Details",
+					"id": "2e55548e-a547-4c14-a732-b4e191602eda",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/settlement/details/:{batchid}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"settlement",
+								"details",
+								":{batchid}"
+							],
+							"variable": [
+								{
+									"id": "c124b971-d99a-40bc-a207-7a01d36a6f1a",
+									"key": "{batchid}",
+									"value": null
+								}
+							]
+						},
+						"description": "#### Get Settlements By BatchId\n\nGet details of a Settlement with all transactions of that settlement .\n\nEndpoint: /settlement/details/:{batchid}  \nMethod: GET\n\n#### Header\n\n| Param | Type | Required? | Decription |\n| --- | --- | --- | --- |\n| _authorization_ | string | Yes | Set value to _Bearer SECRET_KEY_ |\n\n#### Path Params\n\n| Param | Type | Required? | Decription |\n| --- | --- | --- | --- |\n| _batchid_ | string | Yes | settlement batchid |"
+					},
+					"response": []
+				}
+			],
+			"id": "9b7187c7-d1df-4f94-9320-70e7113e2060"
+		},
+		{
+			"name": "Virtual accounts",
+			"item": [
+				{
+					"name": "Create Virtual Account",
+					"item": [
+						{
+							"name": "Create Dedicated Virtual Account",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "bd67d9dc-a421-4bd8-ac8c-fe1ceffda34b",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Response is a JSON object\", function () {",
+											"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+											"});",
+											"",
+											"pm.test(\"Response contains status, data, and message properties\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData).to.have.property('status');",
+											"    pm.expect(jsonData).to.have.property('message');",
+											"    pm.expect(jsonData).to.have.property('data');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "7787d6be-e4d3-434d-8653-ddb758ed84d8",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"customer\": \"CUS_jxfygusybdxa7i1\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{base_url}}/dedicated_virtual_account",
+								"description": "The Dedicated Virtual Account API enables Nigerian merchants to manage unique payment accounts of their customers.\n\n##### Feature Availability\n\nThis feature is only available to businesses in Nigeria.\n\n#### Create Dedicated Virtual Account\n\nCreate a dedicated virtual account and assign to a customer\n\nEndpoint: /dedicated_virtual_account  \nMethod: POST\n\n##### Bank Availability\n\nWe currently support Wema Bank only.\n\n#### Header\n\n| Param | Type | Required? | Decription |\n| --- | --- | --- | --- |\n| _authorization_ | string | Yes | Set value to _Bearer SECRET_KEY_ |\n| _content-type_ | string | Yes | Set value to _application/json_ |\n\n#### Body Param\n\n| Param | Type | Required? | Decription |\n| --- | --- | --- | --- |\n| _customer_ | string | Yes | Customer code |\n| _first_name_ | string | No | Customer's first name |\n| _last_name_ | string | No | Customer's last name |\n| _phone_ | string | No | Customer's phone number |\n\n##### Testing Dedicated Virtual Accounts\n\nTo create Dedicated Virtual Accounts for testing, simply use your test secret key to generate the dedicated account number. And get your payment approved automatically."
+							},
+							"response": []
+						},
+						{
+							"name": "Create Dedicated Virtual Account with invalid customer ID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "9ca3725d-1956-4c00-b8dd-b5a1911bb8da",
+										"exec": [
+											"pm.test(\"Status code is 401\", function () {",
+											"    pm.response.to.have.status(401);",
+											"}); ",
+											"",
+											"pm.test(\"Response is a JSON object with status and message properties\", function () {",
+											"    pm.expect(pm.response.json()).to.be.an('object').that.has.all.keys('status', 'message');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "deba55b1-cb87-404d-af97-bc52c76e66b8",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"customer\": \"CUS_htyijkrmso7gaz8\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{base_url}}/dedicated_virtual_account",
+								"description": "The Dedicated Virtual Account API enables Nigerian merchants to manage unique payment accounts of their customers.\n\n##### Feature Availability\n\nThis feature is only available to businesses in Nigeria.\n\n#### Create Dedicated Virtual Account\n\nCreate a dedicated virtual account and assign to a customer\n\nEndpoint: /dedicated_virtual_account  \nMethod: POST\n\n##### Bank Availability\n\nWe currently support Wema Bank only.\n\n#### Header\n\n| Param | Type | Required? | Decription |\n| --- | --- | --- | --- |\n| _authorization_ | string | Yes | Set value to _Bearer SECRET_KEY_ |\n| _content-type_ | string | Yes | Set value to _application/json_ |\n\n#### Body Param\n\n| Param | Type | Required? | Decription |\n| --- | --- | --- | --- |\n| _customer_ | string | Yes | Customer code |\n| _first_name_ | string | No | Customer's first name |\n| _last_name_ | string | No | Customer's last name |\n| _phone_ | string | No | Customer's phone number |\n\n##### Testing Dedicated Virtual Accounts\n\nTo create Dedicated Virtual Accounts for testing, simply use your test secret key to generate the dedicated account number. And get your payment approved automatically."
+							},
+							"response": []
+						},
+						{
+							"name": "Create Dedicated Virtual Account with empty customer ID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "1cd5c703-9cc6-4848-b9e7-c675f4beabce",
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {",
+											"    pm.response.to.have.status(400);",
+											"}); ",
+											"",
+											"pm.test(\"Response is a JSON object\", function () {",
+											"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+											"    pm.expect(pm.response.json()).to.be.an('object');",
+											"});",
+											"",
+											"pm.test(\"Response has 'status', 'message', and 'error' properties\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData).to.have.property('status');",
+											"    pm.expect(jsonData).to.have.property('message');",
+											"    pm.expect(jsonData).to.have.property('error');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "27c6d170-bf90-4070-b763-32535f936855",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"customer\": \"\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{base_url}}/dedicated_virtual_account",
+								"description": "The Dedicated Virtual Account API enables Nigerian merchants to manage unique payment accounts of their customers.\n\n##### Feature Availability\n\nThis feature is only available to businesses in Nigeria.\n\n#### Create Dedicated Virtual Account\n\nCreate a dedicated virtual account and assign to a customer\n\nEndpoint: /dedicated_virtual_account  \nMethod: POST\n\n##### Bank Availability\n\nWe currently support Wema Bank only.\n\n#### Header\n\n| Param | Type | Required? | Decription |\n| --- | --- | --- | --- |\n| _authorization_ | string | Yes | Set value to _Bearer SECRET_KEY_ |\n| _content-type_ | string | Yes | Set value to _application/json_ |\n\n#### Body Param\n\n| Param | Type | Required? | Decription |\n| --- | --- | --- | --- |\n| _customer_ | string | Yes | Customer code |\n| _first_name_ | string | No | Customer's first name |\n| _last_name_ | string | No | Customer's last name |\n| _phone_ | string | No | Customer's phone number |\n\n##### Testing Dedicated Virtual Accounts\n\nTo create Dedicated Virtual Accounts for testing, simply use your test secret key to generate the dedicated account number. And get your payment approved automatically."
+							},
+							"response": []
+						}
+					],
+					"id": "4125890c-014e-4064-a186-aad809a0836e"
+				},
+				{
+					"name": "Fetch Dedicated Account",
+					"item": [
+						{
+							"name": "Fetch Dedicated Account",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "7f5013e4-ab00-49d6-8ef7-42bf6e6f86d9",
+										"exec": [
+											"pm.test(\"Response status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											" ",
+											"pm.test(\"Response is an object with data property\", function () {",
+											"    pm.expect(pm.response.json()).to.be.an('object').that.has.property('data');",
+											"});",
+											"",
+											"pm.test(\"Response data contains customer, dedicated_account, and provider properties\", function () {",
+											"    var data = pm.response.json().data;",
+											"    pm.expect(data).to.have.property('customer');",
+											"    pm.expect(data).to.have.property('dedicated_account');",
+											"    pm.expect(data).to.have.property('provider');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "c0367aa0-c91e-47f9-94f8-306bf25ee993",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "{{base_url}}/dedicated_account/658",
+								"description": "Get details of a dedicated virtual account on your integration.\n\nEndpoint: /dedicated_account/:id  \nMethod: GET\n\n#### Header\n\n| Param | Type | Required? | Decription |\n| --- | --- | --- | --- |\n| _authorization_ | string | Yes | Set value to _Bearer SECRET_KEY_ |\n\n#### Path Param\n\n| Param | Type | Required? | Decription |\n| --- | --- | --- | --- |\n| _id_ | integer | Yes | ID of dedicated virtual account |"
+							},
+							"response": []
+						},
+						{
+							"name": "Fetch Dedicated Account with invalid ID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "d91aab10-ceb1-498b-a448-9917c50b8f29",
+										"exec": [
+											"pm.test(\"Status code is 401\", function () {",
+											"    pm.response.to.have.status(401);",
+											"});",
+											"",
+											"pm.test(\"Response is an object with status and message properties\", function () {",
+											"    pm.expect(pm.response.json()).to.be.an('object').that.has.all.keys('status', 'message');",
+											"}); "
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "6a193049-c9e9-4be6-a7ad-1071b19c3d1a",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "{{base_url}}/dedicated_account/50",
+								"description": "Get details of a dedicated virtual account on your integration.\n\nEndpoint: /dedicated_account/:id  \nMethod: GET\n\n#### Header\n\n| Param | Type | Required? | Decription |\n| --- | --- | --- | --- |\n| _authorization_ | string | Yes | Set value to _Bearer SECRET_KEY_ |\n\n#### Path Param\n\n| Param | Type | Required? | Decription |\n| --- | --- | --- | --- |\n| _id_ | integer | Yes | ID of dedicated virtual account |"
+							},
+							"response": []
+						},
+						{
+							"name": "Fetch Dedicated Account with EMPTY ID",
+							"id": "42818784-e03b-4fe1-be56-f1ec02660577",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "{{base_url}}/dedicated_account/",
+								"description": "Get details of a dedicated virtual account on your integration.\n\nEndpoint: /dedicated_account/:id  \nMethod: GET\n\n#### Header\n\n| Param | Type | Required? | Decription |\n| --- | --- | --- | --- |\n| _authorization_ | string | Yes | Set value to _Bearer SECRET_KEY_ |\n\n#### Path Param\n\n| Param | Type | Required? | Decription |\n| --- | --- | --- | --- |\n| _id_ | integer | Yes | ID of dedicated virtual account |"
+							},
+							"response": []
+						}
+					],
+					"id": "e2f222b4-39aa-4bc1-b025-8730416e4482"
+				},
+				{
+					"name": "List Dedicated Virtual Account",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "4fed951e-a27d-438b-bd8d-b1f6738f8c5d",
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"}); ",
+									"",
+									"pm.test(\"Response is an object with status, message, data, and meta properties\", function () {",
+									"    pm.expect(pm.response.json()).to.be.an('object').that.includes.all.keys('status', 'message', 'data', 'meta');",
+									"});",
+									"",
+									"pm.test(\"Each element in the data array has id, account_name, account_number, currency, status, domain, reference, created_at, updated_at, and customer properties\", function () {",
+									"    pm.response.json().data.forEach(function(account) {",
+									"        pm.expect(account).to.be.an('object').that.includes.all.keys('id', 'account_name', 'account_number', 'currency', 'status', 'domain', 'reference', 'created_at', 'updated_at', 'customer');",
+									"    });",
+									"});",
+									"",
+									"pm.test(\"Meta property has total property\", function () {",
+									"    pm.expect(pm.response.json().meta).to.be.an('object').that.has.property('total');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "dd0acbb2-0bc1-41cf-b73c-9151e90bda64",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{base_url}}/list_dedicated_accounts",
+						"description": "List dedicated virtual accounts available on your integration.\n\nEndpoint: /list_dedicated_accounts  \nMethod: GET\n\n#### Header\n\n| Param | Type | Required? | Decription |\n| --- | --- | --- | --- |\n| _authorization_ | string | Yes | Set value to _Bearer SECRET_KEY_ |\n\n#### Body Param\n\n| Param | Type | Required? | Decription |\n| --- | --- | --- | --- |\n| _active_ | string | No | Status of the dedicated virtual account |\n| _currency_ | string | No | The currency of the dedicated virtual account. Only _NGN_ is currently allowed |"
+					},
+					"response": []
+				}
+			],
+			"id": "41d49b1e-1a57-4ea9-b203-bcda6f683d64"
+		},
+		{
+			"name": "Fund Transfers",
+			"item": [
+				{
+					"name": "Account Name Verify",
+					"item": [
+						{
+							"name": "Account Name Verify",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "fb084367-d1a9-4ec2-9321-ab7a837a6c51",
+										"exec": [
+											"pm.test(\"Response status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"}); ",
+											"",
+											"pm.test(\"Response is a JSON object with success property\", function () {",
+											"    pm.expect(pm.response.json()).to.be.an('object').that.has.property('success');",
+											"});",
+											"",
+											"pm.test(\"Response is a JSON object with message property\", function () {",
+											"    pm.expect(pm.response.json()).to.be.an('object').that.has.property('message');",
+											"});",
+											"",
+											"pm.test(\"Response is a JSON object with data property\", function () {",
+											"    pm.expect(pm.response.json()).to.be.an('object').that.has.property('data');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "98df561c-4cea-4f7b-a5cf-3448c8c1ef04",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"bank_code\": \"221\",\n    \"account_number\": \"0045795119\",\n    \"currency\": \"NGN\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{base_url}}/account_name_verify",
+								"description": "Get the account name on an account number.\n\nEndpoint: /account_name_verify  \nMethod: POST\n\n#### Header\n\n| Param | Type | Required? | Decription |\n| --- | --- | --- | --- |\n| _authorization_ | string | Yes | Set value to _Bearer SECRET_KEY_ |\n| _content-type_ | string | Yes | Set value to _application/json_ |\n\n#### Body Param\n\n| Param | Type | Required? | Decription |\n| --- | --- | --- | --- |\n| _bank_code_ | string | Yes | account bank code (check bank list) |\n| _account_number_ | string | Yes | account number |\n| _currency_ | string | No | currency is required if not NGN. (only NGN available at the moment) |"
+							},
+							"response": []
+						},
+						{
+							"name": "Account Name Verify with empty bank code",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "50796c54-d197-4ff1-8ea4-d6f1b865ea5f",
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {",
+											"    pm.response.to.have.status(400);",
+											"}); ",
+											"",
+											"pm.test(\"Response content type is application/json\", function () {",
+											"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+											"});",
+											"",
+											"pm.test(\"Response has status property of type boolean\", function () {",
+											"    pm.expect(pm.response.json()).to.have.property('status').that.is.a('boolean');",
+											"});",
+											"",
+											"pm.test(\"Response has error property with bank_code array\", function () {",
+											"    pm.expect(pm.response.json().error).to.have.property('bank_code').that.is.an('array');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "2318fa57-2463-4597-849c-9a824882b9a8",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"bank_code\": \"\",\n    \"account_number\": \"0550179714466\",\n    \"currency\": \"NGN\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{base_url}}/account_name_verify",
+								"description": "Get the account name on an account number.\n\nEndpoint: /account_name_verify  \nMethod: POST\n\n#### Header\n\n| Param | Type | Required? | Decription |\n| --- | --- | --- | --- |\n| _authorization_ | string | Yes | Set value to _Bearer SECRET_KEY_ |\n| _content-type_ | string | Yes | Set value to _application/json_ |\n\n#### Body Param\n\n| Param | Type | Required? | Decription |\n| --- | --- | --- | --- |\n| _bank_code_ | string | Yes | account bank code (check bank list) |\n| _account_number_ | string | Yes | account number |\n| _currency_ | string | No | currency is required if not NGN. (only NGN available at the moment) |"
+							},
+							"response": []
+						},
+						{
+							"name": "Account Name Verify with invalid bank code",
+							"id": "5dabd21a-28a4-402b-bf51-5daa6f74d88b",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"bank_code\": \"000002\",\n    \"account_number\": \"0550179714466\",\n    \"currency\": \"NGN\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{base_url}}/account_name_verify",
+								"description": "Get the account name on an account number.\n\nEndpoint: /account_name_verify  \nMethod: POST\n\n#### Header\n\n| Param | Type | Required? | Decription |\n| --- | --- | --- | --- |\n| _authorization_ | string | Yes | Set value to _Bearer SECRET_KEY_ |\n| _content-type_ | string | Yes | Set value to _application/json_ |\n\n#### Body Param\n\n| Param | Type | Required? | Decription |\n| --- | --- | --- | --- |\n| _bank_code_ | string | Yes | account bank code (check bank list) |\n| _account_number_ | string | Yes | account number |\n| _currency_ | string | No | currency is required if not NGN. (only NGN available at the moment) |"
+							},
+							"response": []
+						},
+						{
+							"name": "Account Name Verify with invalid account number",
+							"id": "0db8b6ff-9a8d-4f25-985c-3894375e3a1a",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"bank_code\": \"221\",\n    \"account_number\": \"0175729989\",\n    \"currency\": \"NGN\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{base_url}}/account_name_verify",
+								"description": "Get the account name on an account number.\n\nEndpoint: /account_name_verify  \nMethod: POST\n\n#### Header\n\n| Param | Type | Required? | Decription |\n| --- | --- | --- | --- |\n| _authorization_ | string | Yes | Set value to _Bearer SECRET_KEY_ |\n| _content-type_ | string | Yes | Set value to _application/json_ |\n\n#### Body Param\n\n| Param | Type | Required? | Decription |\n| --- | --- | --- | --- |\n| _bank_code_ | string | Yes | account bank code (check bank list) |\n| _account_number_ | string | Yes | account number |\n| _currency_ | string | No | currency is required if not NGN. (only NGN available at the moment) |"
+							},
+							"response": []
+						},
+						{
+							"name": "Account Name Verify with empty account number",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "f5331095-0d13-4f2d-a06d-2831e38583d9",
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {",
+											"    pm.response.to.have.status(400);",
+											"}); ",
+											"",
+											"pm.test(\"Response is an object with status property\", function () {",
+											"    pm.expect(pm.response.json()).to.be.an('object').that.has.property('status');",
+											"});",
+											"",
+											"pm.test(\"Response has an error object with account_number property\", function () {",
+											"    pm.expect(pm.response.json().error).to.have.property('account_number');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "6fc8bed7-e851-4716-a7f1-55ce1003bae3",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"bank_code\": \"221\",\n    \"account_number\": \"\",\n    \"currency\": \"NGN\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{base_url}}/account_name_verify",
+								"description": "Get the account name on an account number.\n\nEndpoint: /account_name_verify  \nMethod: POST\n\n#### Header\n\n| Param | Type | Required? | Decription |\n| --- | --- | --- | --- |\n| _authorization_ | string | Yes | Set value to _Bearer SECRET_KEY_ |\n| _content-type_ | string | Yes | Set value to _application/json_ |\n\n#### Body Param\n\n| Param | Type | Required? | Decription |\n| --- | --- | --- | --- |\n| _bank_code_ | string | Yes | account bank code (check bank list) |\n| _account_number_ | string | Yes | account number |\n| _currency_ | string | No | currency is required if not NGN. (only NGN available at the moment) |"
+							},
+							"response": []
+						},
+						{
+							"name": "Account Name Verify with invalid currency",
+							"id": "7c9329ac-b24c-4b61-ba81-c1da7adc0b00",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"bank_code\": \"221\",\n    \"account_number\": \"0045795119\",\n    \"currency\": \"NGNN\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{base_url}}/account_name_verify",
+								"description": "Get the account name on an account number.\n\nEndpoint: /account_name_verify  \nMethod: POST\n\n#### Header\n\n| Param | Type | Required? | Decription |\n| --- | --- | --- | --- |\n| _authorization_ | string | Yes | Set value to _Bearer SECRET_KEY_ |\n| _content-type_ | string | Yes | Set value to _application/json_ |\n\n#### Body Param\n\n| Param | Type | Required? | Decription |\n| --- | --- | --- | --- |\n| _bank_code_ | string | Yes | account bank code (check bank list) |\n| _account_number_ | string | Yes | account number |\n| _currency_ | string | No | currency is required if not NGN. (only NGN available at the moment) |"
+							},
+							"response": []
+						},
+						{
+							"name": "Account Name Verify with empty currency",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "0f7040b5-6abc-4807-b2ef-7d9e3d11d9dc",
+										"exec": [
+											"pm.test(\"Response status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											" ",
+											"pm.test(\"Response is a JSON object\", function () {",
+											"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+											"});",
+											"",
+											"pm.test(\"Response has 'success' property\", function () {",
+											"    pm.expect(pm.response.json()).to.have.property('success');",
+											"});",
+											"",
+											"pm.test(\"Response has 'message' property\", function () {",
+											"    pm.expect(pm.response.json()).to.have.property('message');",
+											"});",
+											"",
+											"pm.test(\"Response has 'data' property\", function () {",
+											"    pm.expect(pm.response.json()).to.have.property('data');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "67e56e05-e2a1-4860-a116-6c4f7788a8af",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"bank_code\": \"221\",\n    \"account_number\": \"0045795119\",\n    \"currency\": \"\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{base_url}}/account_name_verify",
+								"description": "Get the account name on an account number.\n\nEndpoint: /account_name_verify  \nMethod: POST\n\n#### Header\n\n| Param | Type | Required? | Decription |\n| --- | --- | --- | --- |\n| _authorization_ | string | Yes | Set value to _Bearer SECRET_KEY_ |\n| _content-type_ | string | Yes | Set value to _application/json_ |\n\n#### Body Param\n\n| Param | Type | Required? | Decription |\n| --- | --- | --- | --- |\n| _bank_code_ | string | Yes | account bank code (check bank list) |\n| _account_number_ | string | Yes | account number |\n| _currency_ | string | No | currency is required if not NGN. (only NGN available at the moment) |"
+							},
+							"response": []
+						},
+						{
+							"name": "Account Name Verify with empty fields",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "0f7040b5-6abc-4807-b2ef-7d9e3d11d9dc",
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {",
+											"    pm.response.to.have.status(400);",
+											"});",
+											"",
+											"pm.test(\"Response has a status property of type boolean\", function () {",
+											"    pm.expect(pm.response.json().status).to.be.a('boolean');",
+											"}); ",
+											"",
+											"pm.test(\"Response has an error object with bank_code and account_number properties\", function () {",
+											"    pm.expect(pm.response.json().error).to.be.an('object').that.has.all.keys('bank_code', 'account_number');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "c1e18fe4-265a-46e3-a476-6ff2bc6c7d14",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"bank_code\": \"\",\n    \"account_number\": \"\",\n    \"currency\": \"\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{base_url}}/account_name_verify",
+								"description": "Get the account name on an account number.\n\nEndpoint: /account_name_verify  \nMethod: POST\n\n#### Header\n\n| Param | Type | Required? | Decription |\n| --- | --- | --- | --- |\n| _authorization_ | string | Yes | Set value to _Bearer SECRET_KEY_ |\n| _content-type_ | string | Yes | Set value to _application/json_ |\n\n#### Body Param\n\n| Param | Type | Required? | Decription |\n| --- | --- | --- | --- |\n| _bank_code_ | string | Yes | account bank code (check bank list) |\n| _account_number_ | string | Yes | account number |\n| _currency_ | string | No | currency is required if not NGN. (only NGN available at the moment) |"
+							},
+							"response": []
+						}
+					],
+					"id": "cff56643-fcef-4eb3-9cab-eac606eb26cd"
+				},
+				{
+					"name": "Initiate Bulk Bank Transfer",
+					"item": [
+						{
+							"name": "Initiate Bulk Bank Tranfer",
+							"id": "8e6b9efd-deed-48d4-a1f1-bb68a04a38cd",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"currency\": \"NGN\",\n    \"transfers\": [\n        {\n            \"amount\": \"200\",\n            \"bank_code\": \"000013\",\n            \"bank_name\": \"GUARANTY TRUST BANK\",\n            \"account_number\": \"0050883605\",\n            \"narration\": \"January Salary\"\n        },\n        {\n            \"amount\": \"100\",\n            \"bank_code\": \"000013\",\n            \"bank_name\": \"GUARANTY TRUST BANK\",\n            \"account_number\": \"0050883605\",\n            \"narration\": \"February  Salary\"\n        },\n        {\n            \"amount\": \"100\",\n            \"bank_code\": \"000013\",\n            \"bank_name\": \"GUARANTY TRUST BANK\",\n            \"account_number\": \"0050883605\",\n            \"narration\": \"March  Salary\"\n        }\n    ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{base_url}}/bulk_bank_transfer",
+								"description": "#### Initiate Bulk Transfer\n\nStatus of transfer object returned will be _`pending`_ until it's proccessed successfully.\n\nEndpoint: /bulk_bank_transfer  \nMethod: POST\n\n#### Header\n\n| Param | Type | Required? | Decription |\n| --- | --- | --- | --- |\n| _authorization_ | string | Yes | Set value to _Bearer SECRET_KEY_ |\n| _content-type_ | string | Yes | Set value to _application/json_ |\n| _Encryption_ | string | Yes | Set value to your _{Signature_HMAC-SHA-512}_ output |\n\n#### Body Param\n\n| Param | Type | Required? | Decription |\n| --- | --- | --- | --- |\n| _currency_ | string | Yes | Specify the currency of the transfer. Defaults to NGN |\n| _amount_ | string | Yes | Amount to transfer in _currency_ SET value |\n| _bank_code_ | string | Yes | receiver's account bank code (check bank list) |\n| _bank_name_ | string | Yes | receiver's account bank name (check bank list) |\n| _account_number_ | string | Yes | receiver's account number |\n| _narration_ | string | Yes | Transfer naration |\n| _reference_ | string | No | If specified, the field should be a unique identifier (in lowercase) for the object. Only -,_ and alphanumeric characters allowed. |"
+							},
+							"response": []
+						}
+					],
+					"id": "2edfad3e-4c8b-41ea-b861-a2395e137699"
+				},
+				{
+					"name": "Bank List",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c728d300-b33d-4f27-a932-b1d35098b588",
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									" ",
+									"pm.test(\"Response is a JSON object with success, message, currency, and data properties\", function () {",
+									"    pm.expect(pm.response.json()).to.be.an('object').that.has.all.keys('success', 'message', 'currency', 'data');",
+									"});",
+									"",
+									"pm.test(\"Each element in the data array has bank_name and bank_code properties\", function () {",
+									"    pm.response.json().data.forEach(function(bank) {",
+									"        pm.expect(bank).to.be.an('object').that.has.all.keys('bank_name', 'bank_code');",
+									"    });",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "598132a3-fe19-4c2c-be6b-9a8a8514867a",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{base_url}}/bank_list",
+						"description": "#### Nigerian Bank List\n\nGet a list of all supported banks and their codes.\n\nEndpoint: /bank_list  \nMethod: GET\n\n#### Header\n\n| Param | Type | Required? | Decription |\n| --- | --- | --- | --- |\n| _authorization_ | string | Yes | Set value to _Bearer SECRET_KEY_ |\n\n#### Path Parameters\n\n| Param | Type | Required? | Decription |\n| --- | --- | --- | --- |\n| _currency_ | string | Yes | Default value is _NGN_ when not set |"
+					},
+					"response": []
+				},
+				{
+					"name": "List Transfers",
+					"id": "8af3368c-d334-47c4-905f-de0500f12aa1",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/list_transfers",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"list_transfers"
+							],
+							"query": [
+								{
+									"key": "currency",
+									"value": "NGN",
+									"disabled": true
+								}
+							]
+						},
+						"description": "List the transfers made on your integration/business.\n\nEndpoint: /list_transfers  \nMethod: GET\n\n#### Header\n\n| Param | Type | Required? | Decription |\n| --- | --- | --- | --- |\n| _authorization_ | string | Yes | Set value to _Bearer SECRET_KEY_ |\n\n#### Query Param\n\n| Param | Type | Required? | Decription |\n| --- | --- | --- | --- |\n| _currency_ | string | No | Specify the currency of the transfer. |"
+					},
+					"response": []
+				},
+				{
+					"name": "List Payouts",
+					"id": "bec8071f-0bfc-4f46-af0e-aadd7675815b",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/payout",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"payout"
+							],
+							"query": [
+								{
+									"key": "currency",
+									"value": "NGN",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Fetch Payout",
+					"id": "7335742f-e1de-439c-9da8-2ec4d1a61ee7",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/payout/:{reference}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"payout",
+								":{reference}"
+							],
+							"variable": [
+								{
+									"id": "1ab84d96-b3db-4168-a972-1b682ecde722",
+									"key": "{reference}",
+									"value": null
+								}
+							]
+						},
+						"description": "#### Fetch or Verify Payout\n\nFetch a payout record using payout reference.\n\nEndpoint: /payout/:reference  \nMethod: GET\n\n#### Header\n\n| Param | Type | Required? | Decription |\n| --- | --- | --- | --- |\n| _authorization_ | string | Yes | Set value to _Bearer SECRET_KEY_ |"
+					},
+					"response": []
+				},
+				{
+					"name": "Payout Fee",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8f75dc7c-5ab6-4b9d-bc9b-ed37de4e7927",
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response has content type of application/json\", function () {",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+									"}); ",
+									"",
+									"pm.test(\"Response body has success property\", function () {",
+									"    pm.expect(pm.response.json()).to.have.property('success');",
+									"});",
+									"",
+									"pm.test(\"Response body has message property\", function () {",
+									"    pm.expect(pm.response.json()).to.have.property('message');",
+									"});",
+									"",
+									"pm.test(\"Response body has fee property\", function () {",
+									"    pm.expect(pm.response.json()).to.have.property('fee');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "6f16ad76-74b5-48b8-8252-e39e341323fd",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"currency\": \"NGN\",\n    \"amount\": \"100\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/payout_fee",
+						"description": "#### Payout Fee (Bank Transfer Fee)\n\nSometimes you may like to now your transfer fee before a transfer is initiated.\n\nEndpoint: /payout_fee  \nMethod: POST\n\n#### Header\n\n| Param | Type | Required? | Decription |\n| --- | --- | --- | --- |\n| _authorization_ | string | Yes | Set value to _Bearer SECRET_KEY_ |\n| _content-type_ | string | Yes | Set value to _application/json_ |\n\n#### Body Param\n\n| Param | Type | Required? | Decription |\n| --- | --- | --- | --- |\n| _currency_ | string | Yes | Specify the currency of the transfer. Defaults to NGN |\n| _amount_ | string | Yes | Amount to transfer in _currency_ SET value |"
+					},
+					"response": []
+				},
+				{
+					"name": "Initiate Bank Tranfer",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "0a1e014b-6a1d-4730-bd93-d3d8208f4d7c",
+								"exec": [
+									"pm.test(\"Status code is 403\", function () {",
+									"    pm.response.to.have.status(403);",
+									"});",
+									"",
+									"pm.test(\"Response is an object with success property\", function () {",
+									"    pm.expect(pm.response.json()).to.be.an('object').that.has.property('success');",
+									"});",
+									"",
+									"pm.test(\"Response is an object with message property\", function () {",
+									"    pm.expect(pm.response.json()).to.be.an('object').that.has.property('message');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "a3d35ebb-c4c6-44cf-bf78-9f2973d7a32d",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{sk}}"
+							}
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Encryption",
+								"value": "1ab1aa8abcb060d59ae29c2b2961b5e3d69aed41541594cda80aa3fa010f05e02ad3ae06795bb7bf82d400017015c1ff4e987a9a3255b80fcb63a86082db3bc7",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"account_name\": \"GEORGE MOSES EBUKA\",\n    \"account_number\": \"0045795119\",\n    \"amount\": \"100\",\n    \"bank_code\": \"221\",\n    \"bank_name\": \"StanbicIBTC Bank\",\n    \"currency\": \"NGN\",\n    \"narration\": \"Bank Prod test payment\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/bank_transfer",
+						"description": "#### Initiate Transfer\n\nStatus of transfer object returned will be _`pending`_ until it's proccessed successfully.\n\nEndpoint: /bank_transfer  \nMethod: POST\n\n#### Header\n\n| Param | Type | Required? | Decription |\n| --- | --- | --- | --- |\n| _authorization_ | string | Yes | Set value to _Bearer SECRET_KEY_ |\n| _content-type_ | string | Yes | Set value to _application/json_ |\n| _Encryption_ | string | Yes | Set value to your _{Signature_HMAC-SHA-512}_ output |\n\n#### Body Param\n\n| Param | Type | Required? | Decription |\n| --- | --- | --- | --- |\n| _currency_ | string | Yes | Specify the currency of the transfer. Defaults to NGN |\n| _amount_ | string | Yes | Amount to transfer in _currency_ SET value |\n| _bank_code_ | string | Yes | receiver's account bank code (check bank list) |\n| _bank_name_ | string | Yes | receiver's account bank name (check bank list) |\n| _account_number_ | string | Yes | receiver's account number |\n| _narration_ | string | Yes | Transfer naration |\n| _paymentMode_ | string | Yes | payment mode is required only curreny is KES |\n| _reference_ | string | No | If specified, the field should be a unique identifier (in lowercase) for the object. Only -,_ and alphanumeric characters allowed. |"
+					},
+					"response": []
+				}
+			],
+			"id": "fff19529-0164-4839-adb7-4e0fe5f69590"
+		},
+		{
+			"name": "Refund",
+			"item": [
+				{
+					"name": "Initiate Refund",
+					"id": "46f21b8e-6848-4fb5-9437-5e46852f5b08",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"reference\": \"620a5ed386d5c\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/refund",
+						"description": "The Refunds API allows you create and manage transaction refunds.\n\n#### Create Refund\n\nInitiate a refund on your integration\n\nEndpoint: /refund  \nMethod: POST\n\n#### Header\n\n| Param | Type | Required? | Decription |\n| --- | --- | --- | --- |\n| _authorization_ | string | Yes | Set value to _Bearer SECRET_KEY_ |\n| _content-type_ | string | Yes | Set value to _application/json_ |\n\n#### Body Param\n\n| Param | Type | Required? | Decription |\n| --- | --- | --- | --- |\n| _reference_ | string | Yes | Transaction reference |\n| _customer_note_ | string | No | Customer reason |\n| _merchant_note_ | string | No | Merchant reason |"
+					},
+					"response": []
+				},
+				{
+					"name": "List Refund",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "4262e6ba-9b63-45c1-b57b-a2f5f5d225d8",
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response is in JSON format\", function () {",
+									"    pm.response.to.have.header(\"Content-Type\", \"application/json\");",
+									"});",
+									"",
+									"pm.test(\"Response has a status property of type boolean\", function () {",
+									"    pm.expect(pm.response.json()).to.have.property('status').that.is.a('boolean');",
+									"});",
+									"",
+									"pm.test(\"Response has a message property of type string\", function () {",
+									"    pm.expect(pm.response.json()).to.have.property('message').that.is.a('string');",
+									"});",
+									"",
+									"pm.test(\"Response has a data property which is an array\", function () {",
+									"    pm.expect(pm.response.json()).to.have.property('data').that.is.an('array');",
+									"});",
+									"",
+									"pm.test(\"Response has a meta property which is an object with a total property of type number\", function () {",
+									"    pm.expect(pm.response.json()).to.have.property('meta').that.is.an('object').and.has.property('total').that.is.a('number');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "675ff99d-4b5d-4938-b51b-5d9b336af222",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/refund",
+						"description": "List refunds available on your integration.\n\nEndpoint: /refund  \nMethod: GET\n\n#### Header\n\n| Param | Type | Required? | Decription |\n| --- | --- | --- | --- |\n| _authorization_ | string | Yes | Set value to _Bearer SECRET_KEY_ |"
+					},
+					"response": []
+				},
+				{
+					"name": "Fetch Refund Status",
+					"id": "754c2797-3d2c-4ffa-9e65-b6c15e7fe0ba",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/refund/status/:{reference}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"refund",
+								"status",
+								":{reference}"
+							],
+							"variable": [
+								{
+									"id": "d72dd3df-0df8-456f-91fb-b903f7e7a401",
+									"key": "{reference}",
+									"value": null
+								}
+							]
+						},
+						"description": "Get details of a refund on your integration.\n\nEndpoint: /refund/:reference  \nMethod: GET\n\n#### Header\n\n| Param | Type | Required? | Decription |\n| --- | --- | --- | --- |\n| _authorization_ | string | Yes | Set value to _Bearer SECRET_KEY_ |\n\n#### Path Param\n\n| Param | Type | Required? | Decription |\n| --- | --- | --- | --- |\n| _reference_ | string | Yes | Identifier for transaction to be refunded (refund_reference) |"
+					},
+					"response": []
+				}
+			],
+			"id": "b1ba2e51-c010-4f0b-8f24-c2766e3cab83"
+		},
+		{
+			"name": "Permissions",
+			"item": [
+				{
+					"name": "Get Permissions",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "bc279f4e-ea02-489a-b3fd-ebd2df19c012",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Body contains message\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"Business Team Permission Fetched Successfully\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "79826a7f-d622-42c1-a4cb-822a5de8b4fa",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "2812|sx2ZDjz3KQWgd0XhtfcmhZCViUtheEII4bHhjxDT"
+							}
+						},
+						"method": "GET",
+						"header": [
+							{
+								"warning": "This is a duplicate header and will be overridden by the Authorization header generated by Postman.",
+								"key": "Authorization",
+								"value": "2812|sx2ZDjz3KQWgd0XhtfcmhZCViUtheEII4bHhjxDT",
+								"type": "text"
+							},
+							{
+								"key": "Authority",
+								"value": "api.duplo.com",
+								"type": "text"
+							}
+						],
+						"url": "https://api.duplopg.com/api/merchantpro/business-permissions"
+					},
+					"response": []
+				}
+			],
+			"id": "4a3f2fa3-fdd7-4b0b-b4e9-7238595a86a6"
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": {
+			"token": "{{sk}}"
+		}
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "8c89c3a0-7574-4f0b-a789-06fa0350ed3f",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "0d5b4116-9b56-4bbb-a2d1-610d4132c5ee",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "https://api.duplopg.com/api/v2",
+			"type": "string"
+		},
+		{
+			"key": "sk",
+			"value": "sk_test_gmbq9kxqr6bc9otiuk10n5tgzotkoiiq0vagf4y",
+			"type": "string"
+		}
+	]
+}

@@ -1,0 +1,1 @@
+{"success":false,"message":"Currency currently not available for payment split"}

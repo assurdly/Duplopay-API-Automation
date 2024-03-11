@@ -1,0 +1,1 @@
+{"status":true,"message":"Authorization URL created","data":{"authorization_url":"https:\/\/checkout.duplopg.com\/\/pay\/api?reference=Dpay_17101417111472045984","access_code":"3mdcw7if16qw","reference":"Dpay_17101417111472045984"}}

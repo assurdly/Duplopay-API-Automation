@@ -1,0 +1,1 @@
+{"status":true,"message":"Customer created","data":{"email":"Sterling.OConner@hotmail.com","domain":"test","customer_code":"CUS_e1rfl50aoryz5ut","id":321,"created_at":"2024-03-11T07:21:52.000000Z","updated_at":"2024-03-11T07:21:52.000000Z"}}

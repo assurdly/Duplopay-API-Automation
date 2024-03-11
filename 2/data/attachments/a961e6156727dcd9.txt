@@ -1,0 +1,4 @@
+{
+    "currency": "NGN",
+    "amount": "100"
+}

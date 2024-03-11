@@ -1,0 +1,9 @@
+{
+    "email": "",
+    "bank_name": "",
+    "bank_code": "",
+    "account_number": "",
+    "currency": "",
+    "split_type": "",
+    "split_rate": ""
+}

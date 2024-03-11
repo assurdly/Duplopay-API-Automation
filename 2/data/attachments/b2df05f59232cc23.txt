@@ -1,0 +1,9 @@
+{
+    "email": "toluxsys@yahoo.ca",
+    "bank_name": "GTBank Plc",
+    "bank_code": "000013",
+    "account_number": "",
+    "currency": "NGN",
+    "split_type": "percentage",
+    "split_rate": "20"
+}

@@ -1,0 +1,6 @@
+{
+    "email": "richmond_oyen.23@@gmail.com",
+    "first_name": "Oluwolenu",
+    "last_name": "Oyeniyimu",
+    "phone": "08057037418"
+}

@@ -1,0 +1,11 @@
+{
+    "Authority": "api.duplo.com",
+    "Authorization": "Bearer 2812|sx2ZDjz3KQWgd0XhtfcmhZCViUtheEII4bHhjxDT",
+    "User-Agent": "PostmanRuntime/7.36.3",
+    "Accept": "*/*",
+    "Cache-Control": "no-cache",
+    "Postman-Token": "ce2e8c52-1030-4939-a7b0-beccdfb405d5",
+    "Host": "api.duplopg.com",
+    "Accept-Encoding": "gzip, deflate, br",
+    "Connection": "keep-alive"
+}

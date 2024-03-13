@@ -1,0 +1,5 @@
+{
+    "name": "Monthly Contribution",
+    "interval": "monthly",
+    "amount": "100000"
+}

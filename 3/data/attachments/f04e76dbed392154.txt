@@ -1,0 +1,1 @@
+{"status":true,"message":"Customer created","data":{"email":"Claude.Mosciski@gmail.com","domain":"test","customer_code":"CUS_03faumg8iaanfw4","id":323,"created_at":"2024-03-13T14:13:01.000000Z","updated_at":"2024-03-13T14:13:01.000000Z"}}

@@ -1,0 +1,9 @@
+{
+    "email": "toluxsys34@yahoo.ca",
+    "bank_name": "StanbicIBTC Bank",
+    "bank_code": "221",
+    "account_number": "0045795119",
+    "currency": "NGN",
+    "split_type": "percentage",
+    "split_rate": "20"
+}

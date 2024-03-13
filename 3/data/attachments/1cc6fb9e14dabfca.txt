@@ -1,0 +1,9 @@
+{
+    "account_name": "GEORGE MOSES EBUKA",
+    "account_number": "0045795119",
+    "amount": "100",
+    "bank_code": "221",
+    "bank_name": "StanbicIBTC Bank",
+    "currency": "NGN",
+    "narration": "Bank Prod test payment"
+}

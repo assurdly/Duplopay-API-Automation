@@ -1,0 +1,1 @@
+{"status":true,"message":"Transaction totals","data":{"total_transactions":109,"unique_customers":8,"total_volume":74795.00000000015,"total_volume_by_currency":[],"pending_transfers":305.4,"pending_transfers_by_currency":[]}}

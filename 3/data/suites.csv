@@ -1,0 +1,1016 @@
+"Status","Start Time","Stop Time","Duration in ms","Parent Suite","Suite","Sub Suite","Test Class","Test Method","Name","Description"
+"passed","Wed Mar 13 14:13:06 GMT 2024","Wed Mar 13 14:13:07 GMT 2024","187","Customers","Update Customer","","","","Update Customer",""
+"passed","Wed Mar 13 14:13:08 GMT 2024","Wed Mar 13 14:13:08 GMT 2024","180","Customers","Validate Customer","","","","Validate Customer with invalid type",""
+"passed","Wed Mar 13 14:13:06 GMT 2024","Wed Mar 13 14:13:06 GMT 2024","215","Customers","Fetch Customers","","","","Fetch Customer",""
+"passed","Wed Mar 13 14:12:59 GMT 2024","Wed Mar 13 14:13:00 GMT 2024","186","Transactions","Initialize Transaction","","","","Initialize Transaction with empty fields","The Transactions API allows you create and manage payments on your integration.
+
+#### Header
+
+| Param | Type | Required? | Decription |
+| --- | --- | --- | --- |
+| authorization | string | Yes | Set value to Bearer SECRET_KEY |
+| content-type | string | Yes | Set value to application/json |
+
+#### Parameters
+
+| Param | Type | Required? | Decription |
+| --- | --- | --- | --- |
+| email | string | Yes | Customer email address |
+| amount | string | Yes | Amount you are debiting customer. Do not pass this if creating subscriptions. |
+| currency | string | No | Currency charge should be performed in. Allowed values are: NGN or USD. Default currency set to NGN when currency parameter is not set |
+| reference | string | No | Unique case sensitive transaction reference. Only -,_,., =and alphanumeric characters allowed. If you do not pass this parameter, Duplo will generate a unique reference for you. |
+| callback | string | No | Function that runs when payment is successful. This should ideally be a script that uses the verify endpoint on the Budpay API to check the status of the transaction. |"
+"passed","Wed Mar 13 14:13:11 GMT 2024","Wed Mar 13 14:13:11 GMT 2024","185","Customers","Validate Customer","","","","Validate Customer with empty fields",""
+"passed","Wed Mar 13 14:13:11 GMT 2024","Wed Mar 13 14:13:11 GMT 2024","177","Customers","Validate Customer","","","","Validate Customer with invalid code",""
+"passed","Wed Mar 13 14:13:00 GMT 2024","Wed Mar 13 14:13:01 GMT 2024","197","Transactions","","","","","View Transaction Timeline",""
+"passed","Wed Mar 13 14:13:13 GMT 2024","Wed Mar 13 14:13:13 GMT 2024","512","Plans","","","","","Update Plan",""
+"failed","Wed Mar 13 14:13:02 GMT 2024","Wed Mar 13 14:13:02 GMT 2024","223","Customers","Create Customer","","","","Create Customer with invalid phone number","The Customers API allows you create and manage customers on your integration.
+
+#### Create Customer
+
+Create a customer on your integration
+
+Endpoint: /customer  
+Method: POST
+
+##### Customer Validation
+
+The _first_name_, _last_name_ and _phone_ are optional parameters. However, when creating a customer that would be assigned to a Dedicated Virtual Account, then these parameters become compulsory or necessary.
+
+#### Header
+
+| Param | Type | Required? | Decription |
+| --- | --- | --- | --- |
+| _authorization_ | string | Yes | Set value to _Bearer SECRET_KEY_ |
+| _content-type_ | string | Yes | Set value to _application/json_ |
+
+#### Body Param
+
+| Param | Type | Required? | Decription |
+| --- | --- | --- | --- |
+| _email_ | string | Yes | Customer's email address |
+| _first_name_ | string | Yes | Customer's first name |
+| _last_name_ | string | Yes | Customer's last name |
+| _phone_ | string | No | Customer's phone number |
+| _metadata_ | string | No | A set of key/value pairs that you can attach to the customer. It can be used to store additional information in a structured format. |"
+"passed","Wed Mar 13 14:13:09 GMT 2024","Wed Mar 13 14:13:10 GMT 2024","188","Customers","Validate Customer","","","","Validate Customer with empty account number",""
+"passed","Wed Mar 13 14:13:07 GMT 2024","Wed Mar 13 14:13:07 GMT 2024","180","Customers","Update Customer","","","","Update Customer with invalid phone number",""
+"failed","Wed Mar 13 14:13:25 GMT 2024","Wed Mar 13 14:13:26 GMT 2024","375","Payment Link","Create Payment Link","","","","Create a payment link with empty currency",""
+"passed","Wed Mar 13 14:13:04 GMT 2024","Wed Mar 13 14:13:05 GMT 2024","182","Customers","Sub Account Create","","","","Sub Account Create with empty bank code field",""
+"passed","Wed Mar 13 14:13:08 GMT 2024","Wed Mar 13 14:13:08 GMT 2024","186","Customers","Update Customer","","","","Update Customer invalid code",""
+"passed","Wed Mar 13 14:12:58 GMT 2024","Wed Mar 13 14:12:58 GMT 2024","741","Transactions","Initialize Transaction","","","","Initialize Transaction","The Transactions API allows you create and manage payments on your integration.
+
+#### Header
+
+| Param | Type | Required? | Decription |
+| --- | --- | --- | --- |
+| authorization | string | Yes | Set value to Bearer SECRET_KEY |
+| content-type | string | Yes | Set value to application/json |
+
+#### Parameters
+
+| Param | Type | Required? | Decription |
+| --- | --- | --- | --- |
+| email | string | Yes | Customer email address |
+| amount | string | Yes | Amount you are debiting customer. Do not pass this if creating subscriptions. |
+| currency | string | No | Currency charge should be performed in. Allowed values are: NGN or USD. Default currency set to NGN when currency parameter is not set |
+| reference | string | No | Unique case sensitive transaction reference. Only -,_,., =and alphanumeric characters allowed. If you do not pass this parameter, Duplo will generate a unique reference for you. |
+| callback | string | No | Function that runs when payment is successful. This should ideally be a script that uses the verify endpoint on the Budpay API to check the status of the transaction. |"
+"passed","Wed Mar 13 14:13:03 GMT 2024","Wed Mar 13 14:13:03 GMT 2024","188","Customers","Sub Account Create","","","","Sub Account Create",""
+"passed","Wed Mar 13 14:13:05 GMT 2024","Wed Mar 13 14:13:05 GMT 2024","185","Customers","Sub Account Create","","","","Sub Account Create with empty split type field",""
+"passed","Wed Mar 13 14:13:15 GMT 2024","Wed Mar 13 14:13:15 GMT 2024","204","Virtual accounts","Fetch Dedicated Account","","","","Fetch Dedicated Account","Get details of a dedicated virtual account on your integration.
+
+Endpoint: /dedicated_account/:id  
+Method: GET
+
+#### Header
+
+| Param | Type | Required? | Decription |
+| --- | --- | --- | --- |
+| _authorization_ | string | Yes | Set value to _Bearer SECRET_KEY_ |
+
+#### Path Param
+
+| Param | Type | Required? | Decription |
+| --- | --- | --- | --- |
+| _id_ | integer | Yes | ID of dedicated virtual account |"
+"passed","Wed Mar 13 14:13:22 GMT 2024","Wed Mar 13 14:13:22 GMT 2024","188","Fund Transfers","Account Name Verify","","","","Account Name Verify with empty fields","Get the account name on an account number.
+
+Endpoint: /account_name_verify  
+Method: POST
+
+#### Header
+
+| Param | Type | Required? | Decription |
+| --- | --- | --- | --- |
+| _authorization_ | string | Yes | Set value to _Bearer SECRET_KEY_ |
+| _content-type_ | string | Yes | Set value to _application/json_ |
+
+#### Body Param
+
+| Param | Type | Required? | Decription |
+| --- | --- | --- | --- |
+| _bank_code_ | string | Yes | account bank code (check bank list) |
+| _account_number_ | string | Yes | account number |
+| _currency_ | string | No | currency is required if not NGN. (only NGN available at the moment) |"
+"passed","Wed Mar 13 14:13:12 GMT 2024","Wed Mar 13 14:13:13 GMT 2024","362","Plans","","","","","Fetch Plan",""
+"passed","Wed Mar 13 14:13:09 GMT 2024","Wed Mar 13 14:13:09 GMT 2024","196","Customers","Validate Customer","","","","Validate Customer with invalid bvn",""
+"passed","Wed Mar 13 14:13:23 GMT 2024","Wed Mar 13 14:13:23 GMT 2024","221","Fund Transfers","","","","","List Transfers","List the transfers made on your integration/business.
+
+Endpoint: /list_transfers  
+Method: GET
+
+#### Header
+
+| Param | Type | Required? | Decription |
+| --- | --- | --- | --- |
+| _authorization_ | string | Yes | Set value to _Bearer SECRET_KEY_ |
+
+#### Query Param
+
+| Param | Type | Required? | Decription |
+| --- | --- | --- | --- |
+| _currency_ | string | No | Specify the currency of the transfer. |"
+"passed","Wed Mar 13 14:13:06 GMT 2024","Wed Mar 13 14:13:06 GMT 2024","192","Customers","List Customers","","","","List Customers",""
+"passed","Wed Mar 13 14:13:10 GMT 2024","Wed Mar 13 14:13:10 GMT 2024","193","Customers","Validate Customer","","","","Validate Customer with empty bank code",""
+"passed","Wed Mar 13 14:13:11 GMT 2024","Wed Mar 13 14:13:12 GMT 2024","890","Plans","Create Plan","","","","Create Plan",""
+"passed","Wed Mar 13 14:13:15 GMT 2024","Wed Mar 13 14:13:15 GMT 2024","193","Virtual accounts","Fetch Dedicated Account","","","","Fetch Dedicated Account with invalid ID","Get details of a dedicated virtual account on your integration.
+
+Endpoint: /dedicated_account/:id  
+Method: GET
+
+#### Header
+
+| Param | Type | Required? | Decription |
+| --- | --- | --- | --- |
+| _authorization_ | string | Yes | Set value to _Bearer SECRET_KEY_ |
+
+#### Path Param
+
+| Param | Type | Required? | Decription |
+| --- | --- | --- | --- |
+| _id_ | integer | Yes | ID of dedicated virtual account |"
+"passed","Wed Mar 13 14:13:08 GMT 2024","Wed Mar 13 14:13:09 GMT 2024","188","Customers","Validate Customer","","","","Validate Customer with invalid account number",""
+"failed","Wed Mar 13 14:13:27 GMT 2024","Wed Mar 13 14:13:27 GMT 2024","376","Payment Link","Create Payment Link","","","","Create a payment link with empty fields",""
+"failed","Wed Mar 13 14:13:25 GMT 2024","Wed Mar 13 14:13:25 GMT 2024","216","Payment Link","Create Payment Link","","","","Create a payment link with invalid currency",""
+"passed","Wed Mar 13 14:13:13 GMT 2024","Wed Mar 13 14:13:14 GMT 2024","490","Subscriptions","","","","","List Subscription",""
+"passed","Wed Mar 13 14:13:02 GMT 2024","Wed Mar 13 14:13:02 GMT 2024","196","Customers","Create Customer","","","","Create Customer with empty email field","The Customers API allows you create and manage customers on your integration.
+
+#### Create Customer
+
+Create a customer on your integration
+
+Endpoint: /customer  
+Method: POST
+
+##### Customer Validation
+
+The _first_name_, _last_name_ and _phone_ are optional parameters. However, when creating a customer that would be assigned to a Dedicated Virtual Account, then these parameters become compulsory or necessary.
+
+#### Header
+
+| Param | Type | Required? | Decription |
+| --- | --- | --- | --- |
+| _authorization_ | string | Yes | Set value to _Bearer SECRET_KEY_ |
+| _content-type_ | string | Yes | Set value to _application/json_ |
+
+#### Body Param
+
+| Param | Type | Required? | Decription |
+| --- | --- | --- | --- |
+| _email_ | string | Yes | Customer's email address |
+| _first_name_ | string | Yes | Customer's first name |
+| _last_name_ | string | Yes | Customer's last name |
+| _phone_ | string | No | Customer's phone number |
+| _metadata_ | string | No | A set of key/value pairs that you can attach to the customer. It can be used to store additional information in a structured format. |"
+"passed","Wed Mar 13 14:13:03 GMT 2024","Wed Mar 13 14:13:03 GMT 2024","200","Customers","Create Customer","","","","Create Customer with empty field","The Customers API allows you create and manage customers on your integration.
+
+#### Create Customer
+
+Create a customer on your integration
+
+Endpoint: /customer  
+Method: POST
+
+##### Customer Validation
+
+The _first_name_, _last_name_ and _phone_ are optional parameters. However, when creating a customer that would be assigned to a Dedicated Virtual Account, then these parameters become compulsory or necessary.
+
+#### Header
+
+| Param | Type | Required? | Decription |
+| --- | --- | --- | --- |
+| _authorization_ | string | Yes | Set value to _Bearer SECRET_KEY_ |
+| _content-type_ | string | Yes | Set value to _application/json_ |
+
+#### Body Param
+
+| Param | Type | Required? | Decription |
+| --- | --- | --- | --- |
+| _email_ | string | Yes | Customer's email address |
+| _first_name_ | string | Yes | Customer's first name |
+| _last_name_ | string | Yes | Customer's last name |
+| _phone_ | string | No | Customer's phone number |
+| _metadata_ | string | No | A set of key/value pairs that you can attach to the customer. It can be used to store additional information in a structured format. |"
+"passed","Wed Mar 13 14:13:23 GMT 2024","Wed Mar 13 14:13:24 GMT 2024","189","Fund Transfers","","","","","Fetch Payout","#### Fetch or Verify Payout
+
+Fetch a payout record using payout reference.
+
+Endpoint: /payout/:reference  
+Method: GET
+
+#### Header
+
+| Param | Type | Required? | Decription |
+| --- | --- | --- | --- |
+| _authorization_ | string | Yes | Set value to _Bearer SECRET_KEY_ |"
+"failed","Wed Mar 13 14:13:26 GMT 2024","Wed Mar 13 14:13:26 GMT 2024","366","Payment Link","Create Payment Link","","","","Create a payment link with empty description",""
+"passed","Wed Mar 13 14:13:17 GMT 2024","Wed Mar 13 14:13:17 GMT 2024","701","Fund Transfers","Account Name Verify","","","","Account Name Verify with invalid bank code","Get the account name on an account number.
+
+Endpoint: /account_name_verify  
+Method: POST
+
+#### Header
+
+| Param | Type | Required? | Decription |
+| --- | --- | --- | --- |
+| _authorization_ | string | Yes | Set value to _Bearer SECRET_KEY_ |
+| _content-type_ | string | Yes | Set value to _application/json_ |
+
+#### Body Param
+
+| Param | Type | Required? | Decription |
+| --- | --- | --- | --- |
+| _bank_code_ | string | Yes | account bank code (check bank list) |
+| _account_number_ | string | Yes | account number |
+| _currency_ | string | No | currency is required if not NGN. (only NGN available at the moment) |"
+"passed","Wed Mar 13 14:13:14 GMT 2024","Wed Mar 13 14:13:14 GMT 2024","207","Subscriptions","","","","","Create Subscription",""
+"passed","Wed Mar 13 14:13:16 GMT 2024","Wed Mar 13 14:13:16 GMT 2024","645","Fund Transfers","Account Name Verify","","","","Account Name Verify","Get the account name on an account number.
+
+Endpoint: /account_name_verify  
+Method: POST
+
+#### Header
+
+| Param | Type | Required? | Decription |
+| --- | --- | --- | --- |
+| _authorization_ | string | Yes | Set value to _Bearer SECRET_KEY_ |
+| _content-type_ | string | Yes | Set value to _application/json_ |
+
+#### Body Param
+
+| Param | Type | Required? | Decription |
+| --- | --- | --- | --- |
+| _bank_code_ | string | Yes | account bank code (check bank list) |
+| _account_number_ | string | Yes | account number |
+| _currency_ | string | No | currency is required if not NGN. (only NGN available at the moment) |"
+"passed","Wed Mar 13 14:13:24 GMT 2024","Wed Mar 13 14:13:25 GMT 2024","182","Refund","","","","","Fetch Refund Status","Get details of a refund on your integration.
+
+Endpoint: /refund/:reference  
+Method: GET
+
+#### Header
+
+| Param | Type | Required? | Decription |
+| --- | --- | --- | --- |
+| _authorization_ | string | Yes | Set value to _Bearer SECRET_KEY_ |
+
+#### Path Param
+
+| Param | Type | Required? | Decription |
+| --- | --- | --- | --- |
+| _reference_ | string | Yes | Identifier for transaction to be refunded (refund_reference) |"
+"passed","Wed Mar 13 14:13:12 GMT 2024","Wed Mar 13 14:13:12 GMT 2024","365","Plans","","","","","List Plans",""
+"passed","Wed Mar 13 14:13:04 GMT 2024","Wed Mar 13 14:13:04 GMT 2024","222","Customers","Sub Account Create","","","","Sub Account Create with invalid bank code",""
+"passed","Wed Mar 13 14:13:05 GMT 2024","Wed Mar 13 14:13:06 GMT 2024","192","Customers","Sub Account Create","","","","Sub Account Create with empty fields",""
+"passed","Wed Mar 13 14:13:06 GMT 2024","Wed Mar 13 14:13:06 GMT 2024","209","Customers","Fetch Customers","","","","Fetch Customer with empty email or code",""
+"passed","Wed Mar 13 14:13:05 GMT 2024","Wed Mar 13 14:13:05 GMT 2024","189","Customers","Sub Account Create","","","","Sub Account Create with empty currency field",""
+"passed","Wed Mar 13 14:13:14 GMT 2024","Wed Mar 13 14:13:14 GMT 2024","495","Settlements","","","","","Settlements Details","#### Get Settlements By BatchId
+
+Get details of a Settlement with all transactions of that settlement .
+
+Endpoint: /settlement/details/:{batchid}  
+Method: GET
+
+#### Header
+
+| Param | Type | Required? | Decription |
+| --- | --- | --- | --- |
+| _authorization_ | string | Yes | Set value to _Bearer SECRET_KEY_ |
+
+#### Path Params
+
+| Param | Type | Required? | Decription |
+| --- | --- | --- | --- |
+| _batchid_ | string | Yes | settlement batchid |"
+"failed","Wed Mar 13 14:13:01 GMT 2024","Wed Mar 13 14:13:02 GMT 2024","229","Customers","Create Customer","","","","Create Customer with invalid email","The Customers API allows you create and manage customers on your integration.
+
+#### Create Customer
+
+Create a customer on your integration
+
+Endpoint: /customer  
+Method: POST
+
+##### Customer Validation
+
+The _first_name_, _last_name_ and _phone_ are optional parameters. However, when creating a customer that would be assigned to a Dedicated Virtual Account, then these parameters become compulsory or necessary.
+
+#### Header
+
+| Param | Type | Required? | Decription |
+| --- | --- | --- | --- |
+| _authorization_ | string | Yes | Set value to _Bearer SECRET_KEY_ |
+| _content-type_ | string | Yes | Set value to _application/json_ |
+
+#### Body Param
+
+| Param | Type | Required? | Decription |
+| --- | --- | --- | --- |
+| _email_ | string | Yes | Customer's email address |
+| _first_name_ | string | Yes | Customer's first name |
+| _last_name_ | string | Yes | Customer's last name |
+| _phone_ | string | No | Customer's phone number |
+| _metadata_ | string | No | A set of key/value pairs that you can attach to the customer. It can be used to store additional information in a structured format. |"
+"failed","Wed Mar 13 14:13:02 GMT 2024","Wed Mar 13 14:13:02 GMT 2024","215","Customers","Create Customer","","","","Create Customer with empty first name field","The Customers API allows you create and manage customers on your integration.
+
+#### Create Customer
+
+Create a customer on your integration
+
+Endpoint: /customer  
+Method: POST
+
+##### Customer Validation
+
+The _first_name_, _last_name_ and _phone_ are optional parameters. However, when creating a customer that would be assigned to a Dedicated Virtual Account, then these parameters become compulsory or necessary.
+
+#### Header
+
+| Param | Type | Required? | Decription |
+| --- | --- | --- | --- |
+| _authorization_ | string | Yes | Set value to _Bearer SECRET_KEY_ |
+| _content-type_ | string | Yes | Set value to _application/json_ |
+
+#### Body Param
+
+| Param | Type | Required? | Decription |
+| --- | --- | --- | --- |
+| _email_ | string | Yes | Customer's email address |
+| _first_name_ | string | Yes | Customer's first name |
+| _last_name_ | string | Yes | Customer's last name |
+| _phone_ | string | No | Customer's phone number |
+| _metadata_ | string | No | A set of key/value pairs that you can attach to the customer. It can be used to store additional information in a structured format. |"
+"passed","Wed Mar 13 14:13:08 GMT 2024","Wed Mar 13 14:13:08 GMT 2024","184","Customers","Update Customer","","","","Update Customer empty fields",""
+"passed","Wed Mar 13 14:13:24 GMT 2024","Wed Mar 13 14:13:24 GMT 2024","203","Refund","","","","","Initiate Refund","The Refunds API allows you create and manage transaction refunds.
+
+#### Create Refund
+
+Initiate a refund on your integration
+
+Endpoint: /refund  
+Method: POST
+
+#### Header
+
+| Param | Type | Required? | Decription |
+| --- | --- | --- | --- |
+| _authorization_ | string | Yes | Set value to _Bearer SECRET_KEY_ |
+| _content-type_ | string | Yes | Set value to _application/json_ |
+
+#### Body Param
+
+| Param | Type | Required? | Decription |
+| --- | --- | --- | --- |
+| _reference_ | string | Yes | Transaction reference |
+| _customer_note_ | string | No | Customer reason |
+| _merchant_note_ | string | No | Merchant reason |"
+"failed","Wed Mar 13 14:13:03 GMT 2024","Wed Mar 13 14:13:03 GMT 2024","192","Customers","Create Customer","","","","Create Customer with empty phone number field","The Customers API allows you create and manage customers on your integration.
+
+#### Create Customer
+
+Create a customer on your integration
+
+Endpoint: /customer  
+Method: POST
+
+##### Customer Validation
+
+The _first_name_, _last_name_ and _phone_ are optional parameters. However, when creating a customer that would be assigned to a Dedicated Virtual Account, then these parameters become compulsory or necessary.
+
+#### Header
+
+| Param | Type | Required? | Decription |
+| --- | --- | --- | --- |
+| _authorization_ | string | Yes | Set value to _Bearer SECRET_KEY_ |
+| _content-type_ | string | Yes | Set value to _application/json_ |
+
+#### Body Param
+
+| Param | Type | Required? | Decription |
+| --- | --- | --- | --- |
+| _email_ | string | Yes | Customer's email address |
+| _first_name_ | string | Yes | Customer's first name |
+| _last_name_ | string | Yes | Customer's last name |
+| _phone_ | string | No | Customer's phone number |
+| _metadata_ | string | No | A set of key/value pairs that you can attach to the customer. It can be used to store additional information in a structured format. |"
+"passed","Wed Mar 13 14:13:10 GMT 2024","Wed Mar 13 14:13:10 GMT 2024","180","Customers","Validate Customer","","","","Validate Customer with empty last name",""
+"passed","Wed Mar 13 14:13:00 GMT 2024","Wed Mar 13 14:13:00 GMT 2024","186","Transactions","","","","","Verify Transaction","#### Verify Transaction with Reference number
+
+Endpoint: /transaction/verify/:reference  
+Method: GET
+
+#### Header
+
+| Param | Type | Required? | Decription |
+| --- | --- | --- | --- |
+| _authorization_ | string | Yes | Set value to _Bearer SECRET_KEY_ |
+
+#### Path Param
+
+| Param | Type | Required? | Decription |
+| --- | --- | --- | --- |
+| _reference_ | string | Yes | The transaction reference used to intiate the transaction |"
+"passed","Wed Mar 13 14:13:17 GMT 2024","Wed Mar 13 14:13:21 GMT 2024","3506","Fund Transfers","Account Name Verify","","","","Account Name Verify with invalid account number","Get the account name on an account number.
+
+Endpoint: /account_name_verify  
+Method: POST
+
+#### Header
+
+| Param | Type | Required? | Decription |
+| --- | --- | --- | --- |
+| _authorization_ | string | Yes | Set value to _Bearer SECRET_KEY_ |
+| _content-type_ | string | Yes | Set value to _application/json_ |
+
+#### Body Param
+
+| Param | Type | Required? | Decription |
+| --- | --- | --- | --- |
+| _bank_code_ | string | Yes | account bank code (check bank list) |
+| _account_number_ | string | Yes | account number |
+| _currency_ | string | No | currency is required if not NGN. (only NGN available at the moment) |"
+"passed","Wed Mar 13 14:13:10 GMT 2024","Wed Mar 13 14:13:11 GMT 2024","203","Customers","Validate Customer","","","","Validate Customer with empty code",""
+"passed","Wed Mar 13 14:13:25 GMT 2024","Wed Mar 13 14:13:25 GMT 2024","220","Payment Link","Create Payment Link","","","","Create a payment link",""
+"passed","Wed Mar 13 14:13:24 GMT 2024","Wed Mar 13 14:13:24 GMT 2024","223","Fund Transfers","","","","","Payout Fee","#### Payout Fee (Bank Transfer Fee)
+
+Sometimes you may like to now your transfer fee before a transfer is initiated.
+
+Endpoint: /payout_fee  
+Method: POST
+
+#### Header
+
+| Param | Type | Required? | Decription |
+| --- | --- | --- | --- |
+| _authorization_ | string | Yes | Set value to _Bearer SECRET_KEY_ |
+| _content-type_ | string | Yes | Set value to _application/json_ |
+
+#### Body Param
+
+| Param | Type | Required? | Decription |
+| --- | --- | --- | --- |
+| _currency_ | string | Yes | Specify the currency of the transfer. Defaults to NGN |
+| _amount_ | string | Yes | Amount to transfer in _currency_ SET value |"
+"passed","Wed Mar 13 14:12:59 GMT 2024","Wed Mar 13 14:12:59 GMT 2024","191","Transactions","Initialize Transaction","","","","Initialize Transaction with empty amount field","The Transactions API allows you create and manage payments on your integration.
+
+#### Header
+
+| Param | Type | Required? | Decription |
+| --- | --- | --- | --- |
+| authorization | string | Yes | Set value to Bearer SECRET_KEY |
+| content-type | string | Yes | Set value to application/json |
+
+#### Parameters
+
+| Param | Type | Required? | Decription |
+| --- | --- | --- | --- |
+| email | string | Yes | Customer email address |
+| amount | string | Yes | Amount you are debiting customer. Do not pass this if creating subscriptions. |
+| currency | string | No | Currency charge should be performed in. Allowed values are: NGN or USD. Default currency set to NGN when currency parameter is not set |
+| reference | string | No | Unique case sensitive transaction reference. Only -,_,., =and alphanumeric characters allowed. If you do not pass this parameter, Duplo will generate a unique reference for you. |
+| callback | string | No | Function that runs when payment is successful. This should ideally be a script that uses the verify endpoint on the Budpay API to check the status of the transaction. |"
+"passed","Wed Mar 13 14:13:09 GMT 2024","Wed Mar 13 14:13:09 GMT 2024","179","Customers","Validate Customer","","","","Validate Customer with invalid bank code",""
+"passed","Wed Mar 13 14:13:23 GMT 2024","Wed Mar 13 14:13:23 GMT 2024","218","Fund Transfers","","","","","List Payouts",""
+"passed","Wed Mar 13 14:13:24 GMT 2024","Wed Mar 13 14:13:24 GMT 2024","209","Refund","","","","","List Refund","List refunds available on your integration.
+
+Endpoint: /refund  
+Method: GET
+
+#### Header
+
+| Param | Type | Required? | Decription |
+| --- | --- | --- | --- |
+| _authorization_ | string | Yes | Set value to _Bearer SECRET_KEY_ |"
+"passed","Wed Mar 13 14:13:21 GMT 2024","Wed Mar 13 14:13:21 GMT 2024","352","Fund Transfers","Account Name Verify","","","","Account Name Verify with invalid currency","Get the account name on an account number.
+
+Endpoint: /account_name_verify  
+Method: POST
+
+#### Header
+
+| Param | Type | Required? | Decription |
+| --- | --- | --- | --- |
+| _authorization_ | string | Yes | Set value to _Bearer SECRET_KEY_ |
+| _content-type_ | string | Yes | Set value to _application/json_ |
+
+#### Body Param
+
+| Param | Type | Required? | Decription |
+| --- | --- | --- | --- |
+| _bank_code_ | string | Yes | account bank code (check bank list) |
+| _account_number_ | string | Yes | account number |
+| _currency_ | string | No | currency is required if not NGN. (only NGN available at the moment) |"
+"passed","Wed Mar 13 14:13:01 GMT 2024","Wed Mar 13 14:13:01 GMT 2024","195","Transactions","","","","","Get Wallet Transactions","The Wallet transactions API allows you fetch all your wallet transaction history.
+
+#### List Wallet Transactions
+
+List all your business Wallet Transactions.
+
+Endpoint: /wallet_transactions/{currency}  
+Method: GET
+
+#### Header
+
+| Param | Type | Required? | Decription |
+| --- | --- | --- | --- |
+| _authorization_ | string | Yes | Set value to _Bearer SECRET_KEY_ |
+
+#### Path Params
+
+| Param | Type | Required? | Decription |
+| --- | --- | --- | --- |
+| _currency_ | string | Yes | wallet currency |"
+"passed","Wed Mar 13 14:13:21 GMT 2024","Wed Mar 13 14:13:22 GMT 2024","522","Fund Transfers","Account Name Verify","","","","Account Name Verify with empty currency","Get the account name on an account number.
+
+Endpoint: /account_name_verify  
+Method: POST
+
+#### Header
+
+| Param | Type | Required? | Decription |
+| --- | --- | --- | --- |
+| _authorization_ | string | Yes | Set value to _Bearer SECRET_KEY_ |
+| _content-type_ | string | Yes | Set value to _application/json_ |
+
+#### Body Param
+
+| Param | Type | Required? | Decription |
+| --- | --- | --- | --- |
+| _bank_code_ | string | Yes | account bank code (check bank list) |
+| _account_number_ | string | Yes | account number |
+| _currency_ | string | No | currency is required if not NGN. (only NGN available at the moment) |"
+"passed","Wed Mar 13 14:13:21 GMT 2024","Wed Mar 13 14:13:21 GMT 2024","207","Fund Transfers","Account Name Verify","","","","Account Name Verify with empty account number","Get the account name on an account number.
+
+Endpoint: /account_name_verify  
+Method: POST
+
+#### Header
+
+| Param | Type | Required? | Decription |
+| --- | --- | --- | --- |
+| _authorization_ | string | Yes | Set value to _Bearer SECRET_KEY_ |
+| _content-type_ | string | Yes | Set value to _application/json_ |
+
+#### Body Param
+
+| Param | Type | Required? | Decription |
+| --- | --- | --- | --- |
+| _bank_code_ | string | Yes | account bank code (check bank list) |
+| _account_number_ | string | Yes | account number |
+| _currency_ | string | No | currency is required if not NGN. (only NGN available at the moment) |"
+"passed","Wed Mar 13 14:13:04 GMT 2024","Wed Mar 13 14:13:04 GMT 2024","185","Customers","Sub Account Create","","","","Sub Account Create with invalid currency",""
+"passed","Wed Mar 13 14:13:09 GMT 2024","Wed Mar 13 14:13:09 GMT 2024","177","Customers","Validate Customer","","","","Validate Customer with empty type",""
+"failed","Wed Mar 13 14:13:02 GMT 2024","Wed Mar 13 14:13:03 GMT 2024","195","Customers","Create Customer","","","","Create Customer with empty last name field","The Customers API allows you create and manage customers on your integration.
+
+#### Create Customer
+
+Create a customer on your integration
+
+Endpoint: /customer  
+Method: POST
+
+##### Customer Validation
+
+The _first_name_, _last_name_ and _phone_ are optional parameters. However, when creating a customer that would be assigned to a Dedicated Virtual Account, then these parameters become compulsory or necessary.
+
+#### Header
+
+| Param | Type | Required? | Decription |
+| --- | --- | --- | --- |
+| _authorization_ | string | Yes | Set value to _Bearer SECRET_KEY_ |
+| _content-type_ | string | Yes | Set value to _application/json_ |
+
+#### Body Param
+
+| Param | Type | Required? | Decription |
+| --- | --- | --- | --- |
+| _email_ | string | Yes | Customer's email address |
+| _first_name_ | string | Yes | Customer's first name |
+| _last_name_ | string | Yes | Customer's last name |
+| _phone_ | string | No | Customer's phone number |
+| _metadata_ | string | No | A set of key/value pairs that you can attach to the customer. It can be used to store additional information in a structured format. |"
+"passed","Wed Mar 13 14:12:58 GMT 2024","Wed Mar 13 14:12:59 GMT 2024","199","Transactions","Initialize Transaction","","","","Initialize Transaction with invalid email","The Transactions API allows you create and manage payments on your integration.
+
+#### Header
+
+| Param | Type | Required? | Decription |
+| --- | --- | --- | --- |
+| authorization | string | Yes | Set value to Bearer SECRET_KEY |
+| content-type | string | Yes | Set value to application/json |
+
+#### Parameters
+
+| Param | Type | Required? | Decription |
+| --- | --- | --- | --- |
+| email | string | Yes | Customer email address |
+| amount | string | Yes | Amount you are debiting customer. Do not pass this if creating subscriptions. |
+| currency | string | No | Currency charge should be performed in. Allowed values are: NGN or USD. Default currency set to NGN when currency parameter is not set |
+| reference | string | No | Unique case sensitive transaction reference. Only -,_,., =and alphanumeric characters allowed. If you do not pass this parameter, Duplo will generate a unique reference for you. |
+| callback | string | No | Function that runs when payment is successful. This should ideally be a script that uses the verify endpoint on the Budpay API to check the status of the transaction. |"
+"failed","Wed Mar 13 14:13:26 GMT 2024","Wed Mar 13 14:13:27 GMT 2024","365","Payment Link","Create Payment Link","","","","Create a payment link with empty amount",""
+"passed","Wed Mar 13 14:13:03 GMT 2024","Wed Mar 13 14:13:04 GMT 2024","200","Customers","Sub Account Create","","","","Sub Account Create with invalid bank name",""
+"passed","Wed Mar 13 14:13:04 GMT 2024","Wed Mar 13 14:13:04 GMT 2024","180","Customers","Sub Account Create","","","","Sub Account Create with empty bank name field",""
+"failed","Wed Mar 13 14:13:14 GMT 2024","Wed Mar 13 14:13:15 GMT 2024","227","Virtual accounts","Create Virtual Account","","","","Create Dedicated Virtual Account","The Dedicated Virtual Account API enables Nigerian merchants to manage unique payment accounts of their customers.
+
+##### Feature Availability
+
+This feature is only available to businesses in Nigeria.
+
+#### Create Dedicated Virtual Account
+
+Create a dedicated virtual account and assign to a customer
+
+Endpoint: /dedicated_virtual_account  
+Method: POST
+
+##### Bank Availability
+
+We currently support Wema Bank only.
+
+#### Header
+
+| Param | Type | Required? | Decription |
+| --- | --- | --- | --- |
+| _authorization_ | string | Yes | Set value to _Bearer SECRET_KEY_ |
+| _content-type_ | string | Yes | Set value to _application/json_ |
+
+#### Body Param
+
+| Param | Type | Required? | Decription |
+| --- | --- | --- | --- |
+| _customer_ | string | Yes | Customer code |
+| _first_name_ | string | No | Customer's first name |
+| _last_name_ | string | No | Customer's last name |
+| _phone_ | string | No | Customer's phone number |
+
+##### Testing Dedicated Virtual Accounts
+
+To create Dedicated Virtual Accounts for testing, simply use your test secret key to generate the dedicated account number. And get your payment approved automatically."
+"passed","Wed Mar 13 14:13:03 GMT 2024","Wed Mar 13 14:13:03 GMT 2024","185","Customers","Sub Account Create","","","","Sub Account Create with invalid email",""
+"passed","Wed Mar 13 14:13:07 GMT 2024","Wed Mar 13 14:13:07 GMT 2024","179","Customers","Update Customer","","","","Update Customer with empty first name",""
+"passed","Wed Mar 13 14:13:16 GMT 2024","Wed Mar 13 14:13:17 GMT 2024","189","Fund Transfers","Account Name Verify","","","","Account Name Verify with empty bank code","Get the account name on an account number.
+
+Endpoint: /account_name_verify  
+Method: POST
+
+#### Header
+
+| Param | Type | Required? | Decription |
+| --- | --- | --- | --- |
+| _authorization_ | string | Yes | Set value to _Bearer SECRET_KEY_ |
+| _content-type_ | string | Yes | Set value to _application/json_ |
+
+#### Body Param
+
+| Param | Type | Required? | Decription |
+| --- | --- | --- | --- |
+| _bank_code_ | string | Yes | account bank code (check bank list) |
+| _account_number_ | string | Yes | account number |
+| _currency_ | string | No | currency is required if not NGN. (only NGN available at the moment) |"
+"passed","Wed Mar 13 14:13:04 GMT 2024","Wed Mar 13 14:13:04 GMT 2024","179","Customers","Sub Account Create","","","","Sub Account Create with empty email field",""
+"passed","Wed Mar 13 14:13:15 GMT 2024","Wed Mar 13 14:13:15 GMT 2024","206","Virtual accounts","Create Virtual Account","","","","Create Dedicated Virtual Account with invalid customer ID","The Dedicated Virtual Account API enables Nigerian merchants to manage unique payment accounts of their customers.
+
+##### Feature Availability
+
+This feature is only available to businesses in Nigeria.
+
+#### Create Dedicated Virtual Account
+
+Create a dedicated virtual account and assign to a customer
+
+Endpoint: /dedicated_virtual_account  
+Method: POST
+
+##### Bank Availability
+
+We currently support Wema Bank only.
+
+#### Header
+
+| Param | Type | Required? | Decription |
+| --- | --- | --- | --- |
+| _authorization_ | string | Yes | Set value to _Bearer SECRET_KEY_ |
+| _content-type_ | string | Yes | Set value to _application/json_ |
+
+#### Body Param
+
+| Param | Type | Required? | Decription |
+| --- | --- | --- | --- |
+| _customer_ | string | Yes | Customer code |
+| _first_name_ | string | No | Customer's first name |
+| _last_name_ | string | No | Customer's last name |
+| _phone_ | string | No | Customer's phone number |
+
+##### Testing Dedicated Virtual Accounts
+
+To create Dedicated Virtual Accounts for testing, simply use your test secret key to generate the dedicated account number. And get your payment approved automatically."
+"passed","Wed Mar 13 14:13:01 GMT 2024","Wed Mar 13 14:13:01 GMT 2024","222","Customers","Create Customer","","","","Create Customer","The Customers API allows you create and manage customers on your integration.
+
+#### Create Customer
+
+Create a customer on your integration
+
+Endpoint: /customer  
+Method: POST
+
+##### Customer Validation
+
+The _first_name_, _last_name_ and _phone_ are optional parameters. However, when creating a customer that would be assigned to a Dedicated Virtual Account, then these parameters become compulsory or necessary.
+
+#### Header
+
+| Param | Type | Required? | Decription |
+| --- | --- | --- | --- |
+| _authorization_ | string | Yes | Set value to _Bearer SECRET_KEY_ |
+| _content-type_ | string | Yes | Set value to _application/json_ |
+
+#### Body Param
+
+| Param | Type | Required? | Decription |
+| --- | --- | --- | --- |
+| _email_ | string | Yes | Customer's email address |
+| _first_name_ | string | Yes | Customer's first name |
+| _last_name_ | string | Yes | Customer's last name |
+| _phone_ | string | No | Customer's phone number |
+| _metadata_ | string | No | A set of key/value pairs that you can attach to the customer. It can be used to store additional information in a structured format. |"
+"passed","Wed Mar 13 14:13:10 GMT 2024","Wed Mar 13 14:13:10 GMT 2024","178","Customers","Validate Customer","","","","Validate Customer with empty first name",""
+"passed","Wed Mar 13 14:13:08 GMT 2024","Wed Mar 13 14:13:08 GMT 2024","180","Customers","Validate Customer","","","","Validate Customer",""
+"passed","Wed Mar 13 14:13:01 GMT 2024","Wed Mar 13 14:13:01 GMT 2024","204","Transactions","","","","","Transaction Totals",""
+"passed","Wed Mar 13 14:13:24 GMT 2024","Wed Mar 13 14:13:24 GMT 2024","181","Fund Transfers","","","","","Initiate Bank Tranfer","#### Initiate Transfer
+
+Status of transfer object returned will be _`pending`_ until it's proccessed successfully.
+
+Endpoint: /bank_transfer  
+Method: POST
+
+#### Header
+
+| Param | Type | Required? | Decription |
+| --- | --- | --- | --- |
+| _authorization_ | string | Yes | Set value to _Bearer SECRET_KEY_ |
+| _content-type_ | string | Yes | Set value to _application/json_ |
+| _Encryption_ | string | Yes | Set value to your _{Signature_HMAC-SHA-512}_ output |
+
+#### Body Param
+
+| Param | Type | Required? | Decription |
+| --- | --- | --- | --- |
+| _currency_ | string | Yes | Specify the currency of the transfer. Defaults to NGN |
+| _amount_ | string | Yes | Amount to transfer in _currency_ SET value |
+| _bank_code_ | string | Yes | receiver's account bank code (check bank list) |
+| _bank_name_ | string | Yes | receiver's account bank name (check bank list) |
+| _account_number_ | string | Yes | receiver's account number |
+| _narration_ | string | Yes | Transfer naration |
+| _paymentMode_ | string | Yes | payment mode is required only curreny is KES |
+| _reference_ | string | No | If specified, the field should be a unique identifier (in lowercase) for the object. Only -,_ and alphanumeric characters allowed. |"
+"passed","Wed Mar 13 14:13:25 GMT 2024","Wed Mar 13 14:13:25 GMT 2024","186","Payment Link","Create Payment Link","","","","Get Payment Link",""
+"passed","Wed Mar 13 14:12:59 GMT 2024","Wed Mar 13 14:12:59 GMT 2024","230","Transactions","Initialize Transaction","","","","Initialize Transaction with empty callback field","The Transactions API allows you create and manage payments on your integration.
+
+#### Header
+
+| Param | Type | Required? | Decription |
+| --- | --- | --- | --- |
+| authorization | string | Yes | Set value to Bearer SECRET_KEY |
+| content-type | string | Yes | Set value to application/json |
+
+#### Parameters
+
+| Param | Type | Required? | Decription |
+| --- | --- | --- | --- |
+| email | string | Yes | Customer email address |
+| amount | string | Yes | Amount you are debiting customer. Do not pass this if creating subscriptions. |
+| currency | string | No | Currency charge should be performed in. Allowed values are: NGN or USD. Default currency set to NGN when currency parameter is not set |
+| reference | string | No | Unique case sensitive transaction reference. Only -,_,., =and alphanumeric characters allowed. If you do not pass this parameter, Duplo will generate a unique reference for you. |
+| callback | string | No | Function that runs when payment is successful. This should ideally be a script that uses the verify endpoint on the Budpay API to check the status of the transaction. |"
+"passed","Wed Mar 13 14:13:01 GMT 2024","Wed Mar 13 14:13:01 GMT 2024","227","Transactions","","","","","Get Wallet Balance","#### Get Wallet balance by Currency
+
+Sometimes you may like to now your wallet balanace before a transfer is initiated or for any other purpose.
+
+Endpoint: /wallet_balance/{currency}  
+Method: GET
+
+#### Header
+
+| Param | Type | Required? | Decription |
+| --- | --- | --- | --- |
+| _authorization_ | string | Yes | Set value to _Bearer SECRET_KEY_ |
+
+#### Query Param
+
+| Param | Type | Required? | Decription |
+| --- | --- | --- | --- |
+| _currency_ | string | Yes | Specify the currency of the transfer. e.g. NGN |"
+"passed","Wed Mar 13 14:13:08 GMT 2024","Wed Mar 13 14:13:08 GMT 2024","183","Customers","Validate Customer","","","","Validate Customer with invalid currency",""
+"passed","Wed Mar 13 14:13:06 GMT 2024","Wed Mar 13 14:13:06 GMT 2024","179","Customers","Fetch Customers","","","","Fetch Customer with invalid email or code",""
+"passed","Wed Mar 13 14:13:09 GMT 2024","Wed Mar 13 14:13:09 GMT 2024","185","Customers","Validate Customer","","","","Validate Customer with empty country",""
+"passed","Wed Mar 13 14:13:25 GMT 2024","Wed Mar 13 14:13:25 GMT 2024","205","Permissions","","","","","Get Permissions",""
+"passed","Wed Mar 13 14:13:05 GMT 2024","Wed Mar 13 14:13:05 GMT 2024","182","Customers","Sub Account Create","","","","Sub Account Create with empty split rate field",""
+"passed","Wed Mar 13 14:13:22 GMT 2024","Wed Mar 13 14:13:22 GMT 2024","202","Fund Transfers","Initiate Bulk Bank Transfer","","","","Initiate Bulk Bank Tranfer","#### Initiate Bulk Transfer
+
+Status of transfer object returned will be _`pending`_ until it's proccessed successfully.
+
+Endpoint: /bulk_bank_transfer  
+Method: POST
+
+#### Header
+
+| Param | Type | Required? | Decription |
+| --- | --- | --- | --- |
+| _authorization_ | string | Yes | Set value to _Bearer SECRET_KEY_ |
+| _content-type_ | string | Yes | Set value to _application/json_ |
+| _Encryption_ | string | Yes | Set value to your _{Signature_HMAC-SHA-512}_ output |
+
+#### Body Param
+
+| Param | Type | Required? | Decription |
+| --- | --- | --- | --- |
+| _currency_ | string | Yes | Specify the currency of the transfer. Defaults to NGN |
+| _amount_ | string | Yes | Amount to transfer in _currency_ SET value |
+| _bank_code_ | string | Yes | receiver's account bank code (check bank list) |
+| _bank_name_ | string | Yes | receiver's account bank name (check bank list) |
+| _account_number_ | string | Yes | receiver's account number |
+| _narration_ | string | Yes | Transfer naration |
+| _reference_ | string | No | If specified, the field should be a unique identifier (in lowercase) for the object. Only -,_ and alphanumeric characters allowed. |"
+"passed","Wed Mar 13 14:13:22 GMT 2024","Wed Mar 13 14:13:23 GMT 2024","489","Fund Transfers","","","","","Bank List","#### Nigerian Bank List
+
+Get a list of all supported banks and their codes.
+
+Endpoint: /bank_list  
+Method: GET
+
+#### Header
+
+| Param | Type | Required? | Decription |
+| --- | --- | --- | --- |
+| _authorization_ | string | Yes | Set value to _Bearer SECRET_KEY_ |
+
+#### Path Parameters
+
+| Param | Type | Required? | Decription |
+| --- | --- | --- | --- |
+| _currency_ | string | Yes | Default value is _NGN_ when not set |"
+"passed","Wed Mar 13 14:13:15 GMT 2024","Wed Mar 13 14:13:15 GMT 2024","187","Virtual accounts","Create Virtual Account","","","","Create Dedicated Virtual Account with empty customer ID","The Dedicated Virtual Account API enables Nigerian merchants to manage unique payment accounts of their customers.
+
+##### Feature Availability
+
+This feature is only available to businesses in Nigeria.
+
+#### Create Dedicated Virtual Account
+
+Create a dedicated virtual account and assign to a customer
+
+Endpoint: /dedicated_virtual_account  
+Method: POST
+
+##### Bank Availability
+
+We currently support Wema Bank only.
+
+#### Header
+
+| Param | Type | Required? | Decription |
+| --- | --- | --- | --- |
+| _authorization_ | string | Yes | Set value to _Bearer SECRET_KEY_ |
+| _content-type_ | string | Yes | Set value to _application/json_ |
+
+#### Body Param
+
+| Param | Type | Required? | Decription |
+| --- | --- | --- | --- |
+| _customer_ | string | Yes | Customer code |
+| _first_name_ | string | No | Customer's first name |
+| _last_name_ | string | No | Customer's last name |
+| _phone_ | string | No | Customer's phone number |
+
+##### Testing Dedicated Virtual Accounts
+
+To create Dedicated Virtual Accounts for testing, simply use your test secret key to generate the dedicated account number. And get your payment approved automatically."
+"passed","Wed Mar 13 14:13:14 GMT 2024","Wed Mar 13 14:13:14 GMT 2024","198","Settlements","","","","","List Settlements","The Settlements API allows you fetch all your settlement history.
+
+#### List Settlements
+
+List all your business Settlements.
+
+Endpoint: /settlement  
+Method: GET
+
+#### Header
+
+| Param | Type | Required? | Decription |
+| --- | --- | --- | --- |
+| _authorization_ | string | Yes | Set value to _Bearer SECRET_KEY_ |"
+"passed","Wed Mar 13 14:13:07 GMT 2024","Wed Mar 13 14:13:07 GMT 2024","185","Customers","Update Customer","","","","Update Customer with empty phone number",""
+"passed","Wed Mar 13 14:13:05 GMT 2024","Wed Mar 13 14:13:05 GMT 2024","202","Customers","Sub Account Create","","","","Sub Account Create with empty account number field",""
+"passed","Wed Mar 13 14:13:00 GMT 2024","Wed Mar 13 14:13:00 GMT 2024","254","Transactions","List Transactions","","","","List Transactions","This endpoint allows you to get all transactions"
+"passed","Wed Mar 13 14:13:10 GMT 2024","Wed Mar 13 14:13:10 GMT 2024","184","Customers","Validate Customer","","","","Validate Customer with empty bvn",""
+"passed","Wed Mar 13 14:13:16 GMT 2024","Wed Mar 13 14:13:16 GMT 2024","192","Virtual accounts","","","","","List Dedicated Virtual Account","List dedicated virtual accounts available on your integration.
+
+Endpoint: /list_dedicated_accounts  
+Method: GET
+
+#### Header
+
+| Param | Type | Required? | Decription |
+| --- | --- | --- | --- |
+| _authorization_ | string | Yes | Set value to _Bearer SECRET_KEY_ |
+
+#### Body Param
+
+| Param | Type | Required? | Decription |
+| --- | --- | --- | --- |
+| _active_ | string | No | Status of the dedicated virtual account |
+| _currency_ | string | No | The currency of the dedicated virtual account. Only _NGN_ is currently allowed |"
+"failed","Wed Mar 13 14:13:26 GMT 2024","Wed Mar 13 14:13:26 GMT 2024","367","Payment Link","Create Payment Link","","","","Create a payment link with empty name",""
+"passed","Wed Mar 13 14:12:59 GMT 2024","Wed Mar 13 14:12:59 GMT 2024","188","Transactions","Initialize Transaction","","","","Initialize Transaction with empty email field","The Transactions API allows you create and manage payments on your integration.
+
+#### Header
+
+| Param | Type | Required? | Decription |
+| --- | --- | --- | --- |
+| authorization | string | Yes | Set value to Bearer SECRET_KEY |
+| content-type | string | Yes | Set value to application/json |
+
+#### Parameters
+
+| Param | Type | Required? | Decription |
+| --- | --- | --- | --- |
+| email | string | Yes | Customer email address |
+| amount | string | Yes | Amount you are debiting customer. Do not pass this if creating subscriptions. |
+| currency | string | No | Currency charge should be performed in. Allowed values are: NGN or USD. Default currency set to NGN when currency parameter is not set |
+| reference | string | No | Unique case sensitive transaction reference. Only -,_,., =and alphanumeric characters allowed. If you do not pass this parameter, Duplo will generate a unique reference for you. |
+| callback | string | No | Function that runs when payment is successful. This should ideally be a script that uses the verify endpoint on the Budpay API to check the status of the transaction. |"
+"passed","Wed Mar 13 14:13:04 GMT 2024","Wed Mar 13 14:13:04 GMT 2024","188","Customers","Sub Account Create","","","","Sub Account Create with invalid account number",""
+"passed","Wed Mar 13 14:13:00 GMT 2024","Wed Mar 13 14:13:00 GMT 2024","208","Transactions","","","","","Transactions Query",""
+"passed","Wed Mar 13 14:13:00 GMT 2024","Wed Mar 13 14:13:00 GMT 2024","188","Transactions","","","","","Fetch Transaction","#### Fetch Single Transaction
+
+Endpoint: /transaction/:id  
+Method: GET
+
+#### Header
+
+| Param | Type | Required? | Decription |
+| --- | --- | --- | --- |
+| _authorization_ | string | Yes | Set value to _Bearer SECRET_KEY_ |
+
+#### Query Param
+
+| Param | Type | Required? | Decription |
+| --- | --- | --- | --- |
+| _id_ | integer | Yes | An ID for the transaction to fetch |"
+"passed","Wed Mar 13 14:12:59 GMT 2024","Wed Mar 13 14:12:59 GMT 2024","219","Transactions","Initialize Transaction","","","","Initialize Transaction with invalid callback link","The Transactions API allows you create and manage payments on your integration.
+
+#### Header
+
+| Param | Type | Required? | Decription |
+| --- | --- | --- | --- |
+| authorization | string | Yes | Set value to Bearer SECRET_KEY |
+| content-type | string | Yes | Set value to application/json |
+
+#### Parameters
+
+| Param | Type | Required? | Decription |
+| --- | --- | --- | --- |
+| email | string | Yes | Customer email address |
+| amount | string | Yes | Amount you are debiting customer. Do not pass this if creating subscriptions. |
+| currency | string | No | Currency charge should be performed in. Allowed values are: NGN or USD. Default currency set to NGN when currency parameter is not set |
+| reference | string | No | Unique case sensitive transaction reference. Only -,_,., =and alphanumeric characters allowed. If you do not pass this parameter, Duplo will generate a unique reference for you. |
+| callback | string | No | Function that runs when payment is successful. This should ideally be a script that uses the verify endpoint on the Budpay API to check the status of the transaction. |"
+"passed","Wed Mar 13 14:13:07 GMT 2024","Wed Mar 13 14:13:07 GMT 2024","178","Customers","Update Customer","","","","Update Customer with empty last name",""
+"passed","Wed Mar 13 14:13:15 GMT 2024","Wed Mar 13 14:13:16 GMT 2024","182","Virtual accounts","Fetch Dedicated Account","","","","Fetch Dedicated Account with EMPTY ID","Get details of a dedicated virtual account on your integration.
+
+Endpoint: /dedicated_account/:id  
+Method: GET
+
+#### Header
+
+| Param | Type | Required? | Decription |
+| --- | --- | --- | --- |
+| _authorization_ | string | Yes | Set value to _Bearer SECRET_KEY_ |
+
+#### Path Param
+
+| Param | Type | Required? | Decription |
+| --- | --- | --- | --- |
+| _id_ | integer | Yes | ID of dedicated virtual account |"
+"passed","Wed Mar 13 14:13:07 GMT 2024","Wed Mar 13 14:13:08 GMT 2024","178","Customers","Update Customer","","","","Update Customer with empty code",""

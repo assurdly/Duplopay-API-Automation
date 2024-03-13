@@ -1,0 +1,1 @@
+{"success":true,"message":"Wallet Balance Fetched Successfully","data":{"currency":"NGN","balance":"0","pending":"1278.6"}}

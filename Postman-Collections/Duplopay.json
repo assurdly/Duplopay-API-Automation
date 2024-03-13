@@ -4774,6 +4774,30 @@
 						},
 						{
 							"name": "Create a payment link with invalid currency",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "65c7c27c-489d-427e-abd7-af104b010219",
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {",
+											"    pm.response.to.have.status(400);",
+											"});",
+											"",
+											"pm.test(\"Body contains data\", function () {",
+											"     const responseBody = pm.response.json();",
+											"     pm.expect(responseBody).to.have.property('data');",
+											"});",
+											"",
+											"pm.test(\"Body contains ref_id\", function () {",
+											"    var responseBody = pm.response.json();",
+											"    pm.expect(responseBody).to.have.property('ref_id');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
 							"id": "9da69727-f7c7-4736-95b5-5caf85b0f902",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
@@ -4789,7 +4813,247 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n\"name\":\"Testing\",\n\"amount\":\"1,000\",\n\"currency\":\"NGN\",\n\"description\":\"Testing\",\n\"redirect\":\"\"\n}",
+									"raw": "{\n\"name\":\"Testing\",\n\"amount\":\"1,000\",\n\"currency\":\"NGNN\",\n\"description\":\"Testing\",\n\"redirect\":\"\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "https://api.duplopg.com/api/merchantpro/payment-link-create/125/test"
+							},
+							"response": []
+						},
+						{
+							"name": "Create a payment link with empty currency",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "65c7c27c-489d-427e-abd7-af104b010219",
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {",
+											"    pm.response.to.have.status(400);",
+											"});",
+											"",
+											"pm.test(\"Body contains data\", function () {",
+											"     const responseBody = pm.response.json();",
+											"     pm.expect(responseBody).to.have.property('data');",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "a24df1c3-f978-4d54-8f82-b841df3c9d17",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "2825|8H49FaWJD25tMnDrGpgxLPhdzu4w0poOqbZnRMsc"
+									}
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\"name\":\"Testing\",\n\"amount\":\"1,000\",\n\"currency\":\"\",\n\"description\":\"Testing\",\n\"redirect\":\"\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "https://api.duplopg.com/api/merchantpro/payment-link-create/125/test"
+							},
+							"response": []
+						},
+						{
+							"name": "Create a payment link with empty name",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "65c7c27c-489d-427e-abd7-af104b010219",
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {",
+											"    pm.response.to.have.status(400);",
+											"});",
+											"",
+											"pm.test(\"Body contains data\", function () {",
+											"     const responseBody = pm.response.json();",
+											"     pm.expect(responseBody).to.have.property('data');",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "db72adfd-7d90-494e-a97b-7d3914384c6d",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "2825|8H49FaWJD25tMnDrGpgxLPhdzu4w0poOqbZnRMsc"
+									}
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\"name\":\"Testing\",\n\"amount\":\"1,000\",\n\"currency\":\"\",\n\"description\":\"Testing\",\n\"redirect\":\"\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "https://api.duplopg.com/api/merchantpro/payment-link-create/125/test"
+							},
+							"response": []
+						},
+						{
+							"name": "Create a payment link with empty description",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "65c7c27c-489d-427e-abd7-af104b010219",
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {",
+											"    pm.response.to.have.status(400);",
+											"});",
+											"",
+											"pm.test(\"Body contains data\", function () {",
+											"     const responseBody = pm.response.json();",
+											"     pm.expect(responseBody).to.have.property('data');",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "7c02dd77-fa20-4fd6-904b-babe1e6a2ea0",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "2825|8H49FaWJD25tMnDrGpgxLPhdzu4w0poOqbZnRMsc"
+									}
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\"name\":\"Testing\",\n\"amount\":\"1,000\",\n\"currency\":\"\",\n\"description\":\"Testing\",\n\"redirect\":\"\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "https://api.duplopg.com/api/merchantpro/payment-link-create/125/test"
+							},
+							"response": []
+						},
+						{
+							"name": "Create a payment link with empty amount",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "65c7c27c-489d-427e-abd7-af104b010219",
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {",
+											"    pm.response.to.have.status(400);",
+											"});",
+											"",
+											"pm.test(\"Body contains data\", function () {",
+											"     const responseBody = pm.response.json();",
+											"     pm.expect(responseBody).to.have.property('data');",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "540b44fc-2e01-4e1d-a732-abedb8cd2862",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "2825|8H49FaWJD25tMnDrGpgxLPhdzu4w0poOqbZnRMsc"
+									}
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\"name\":\"Testing\",\n\"amount\":\"1,000\",\n\"currency\":\"\",\n\"description\":\"Testing\",\n\"redirect\":\"\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "https://api.duplopg.com/api/merchantpro/payment-link-create/125/test"
+							},
+							"response": []
+						},
+						{
+							"name": "Create a payment link with empty fields",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "65c7c27c-489d-427e-abd7-af104b010219",
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {",
+											"    pm.response.to.have.status(400);",
+											"});",
+											"",
+											"pm.test(\"Body contains data\", function () {",
+											"     const responseBody = pm.response.json();",
+											"     pm.expect(responseBody).to.have.property('data');",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "0143fc40-c088-4d0b-b16f-9a73a9458750",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "2825|8H49FaWJD25tMnDrGpgxLPhdzu4w0poOqbZnRMsc"
+									}
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\"name\":\"Testing\",\n\"amount\":\"1,000\",\n\"currency\":\"\",\n\"description\":\"Testing\",\n\"redirect\":\"\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"

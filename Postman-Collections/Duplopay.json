@@ -4685,6 +4685,30 @@
 				}
 			],
 			"id": "4a3f2fa3-fdd7-4b0b-b4e9-7238595a86a6"
+		},
+		{
+			"name": "Payment Link",
+			"item": [
+				{
+					"name": "Create Payment Link",
+					"item": [
+						{
+							"name": "Get Payment Link",
+							"id": "85638aca-4ec4-4aea-9927-801a26997c67",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
+						}
+					],
+					"id": "9c310bc8-f981-4820-90cf-7c986356ddac"
+				}
+			],
+			"id": "870a177d-3c52-414c-96ef-4cea5e8ff599"
 		}
 	],
 	"auth": {

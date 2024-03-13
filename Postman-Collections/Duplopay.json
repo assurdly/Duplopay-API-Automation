@@ -4694,7 +4694,59 @@
 					"item": [
 						{
 							"name": "Get Payment Link",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "788cbd7e-a182-4525-840f-89149eae5ae8",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Body contains data and it's an object\", function () {",
+											"     pm.expect(pm.response.json()).to.be.an('object');",
+											"     pm.expect(pm.response.json().data).to.exist.and.to.be.an('array');",
+											"});",
+											"",
+											"pm.test(\"Body contains data values\", function () {",
+											"     var responseData = pm.response.json();",
+											"     pm.expect(responseData).to.be.an('object');",
+											"     pm.expect(responseData).to.have.property('data');",
+											"     responseData.data.forEach((business) => {",
+											"            pm.expect(business).to.be.an('object');",
+											"            pm.expect(business).to.have.property('id');",
+											"            pm.expect(business).to.have.property('user_id');",
+											"            pm.expect(business).to.have.property('name');",
+											"            pm.expect(business).to.have.property('type');",
+											"            pm.expect(business).to.have.property('industry_id');",
+											"     });",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
 							"id": "85638aca-4ec4-4aea-9927-801a26997c67",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "2825|8H49FaWJD25tMnDrGpgxLPhdzu4w0poOqbZnRMsc"
+									}
+								},
+								"method": "GET",
+								"header": [],
+								"url": "https://api.duplopg.com/api/merchantpro/businesses"
+							},
+							"response": []
+						},
+						{
+							"name": "Create a payment link",
+							"id": "5ad2a2dc-7905-46b9-be27-e84f3ab117cf",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
 							},

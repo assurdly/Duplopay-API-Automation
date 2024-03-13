@@ -4909,7 +4909,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n\"name\":\"Testing\",\n\"amount\":\"1,000\",\n\"currency\":\"\",\n\"description\":\"Testing\",\n\"redirect\":\"\"\n}",
+									"raw": "{\n\"name\":\"\",\n\"amount\":\"1,000\",\n\"currency\":\"NGN\",\n\"description\":\"Testing\",\n\"redirect\":\"\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -4957,7 +4957,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n\"name\":\"Testing\",\n\"amount\":\"1,000\",\n\"currency\":\"\",\n\"description\":\"Testing\",\n\"redirect\":\"\"\n}",
+									"raw": "{\n\"name\":\"Testing\",\n\"amount\":\"1,000\",\n\"currency\":\"NGN\",\n\"description\":\"\",\n\"redirect\":\"\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -5005,7 +5005,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n\"name\":\"Testing\",\n\"amount\":\"1,000\",\n\"currency\":\"\",\n\"description\":\"Testing\",\n\"redirect\":\"\"\n}",
+									"raw": "{\n\"name\":\"Testing\",\n\"amount\":\"\",\n\"currency\":\"NGN\",\n\"description\":\"Testing\",\n\"redirect\":\"\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"

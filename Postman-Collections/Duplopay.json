@@ -4751,8 +4751,52 @@
 								"disableBodyPruning": true
 							},
 							"request": {
-								"method": "GET",
-								"header": []
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "2825|8H49FaWJD25tMnDrGpgxLPhdzu4w0poOqbZnRMsc"
+									}
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\"name\":\"Testing\",\n\"amount\":\"1,000\",\n\"currency\":\"NGN\",\n\"description\":\"Testing\",\n\"redirect\":\"\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "https://api.duplopg.com/api/merchantpro/payment-link-create/125/test"
+							},
+							"response": []
+						},
+						{
+							"name": "Create a payment link with invalid currency",
+							"id": "9da69727-f7c7-4736-95b5-5caf85b0f902",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "2825|8H49FaWJD25tMnDrGpgxLPhdzu4w0poOqbZnRMsc"
+									}
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\"name\":\"Testing\",\n\"amount\":\"1,000\",\n\"currency\":\"NGN\",\n\"description\":\"Testing\",\n\"redirect\":\"\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "https://api.duplopg.com/api/merchantpro/payment-link-create/125/test"
 							},
 							"response": []
 						}

@@ -4735,12 +4735,12 @@
 								"auth": {
 									"type": "bearer",
 									"bearer": {
-										"token": "2825|8H49FaWJD25tMnDrGpgxLPhdzu4w0poOqbZnRMsc"
+										"token": "{{token}}"
 									}
 								},
 								"method": "GET",
 								"header": [],
-								"url": "https://api.duplopg.com/api/merchantpro/businesses"
+								"url": "{{Baseurl}}/merchantpro/businesses"
 							},
 							"response": []
 						},
@@ -4754,7 +4754,7 @@
 								"auth": {
 									"type": "bearer",
 									"bearer": {
-										"token": "2825|8H49FaWJD25tMnDrGpgxLPhdzu4w0poOqbZnRMsc"
+										"token": "{{token}}"
 									}
 								},
 								"method": "POST",
@@ -4768,7 +4768,7 @@
 										}
 									}
 								},
-								"url": "https://api.duplopg.com/api/merchantpro/payment-link-create/125/test"
+								"url": "{{Baseurl}}/merchantpro/payment-link-create/125/test"
 							},
 							"response": []
 						},
@@ -4806,7 +4806,7 @@
 								"auth": {
 									"type": "bearer",
 									"bearer": {
-										"token": "2825|8H49FaWJD25tMnDrGpgxLPhdzu4w0poOqbZnRMsc"
+										"token": "{{token}}"
 									}
 								},
 								"method": "POST",
@@ -4820,7 +4820,7 @@
 										}
 									}
 								},
-								"url": "https://api.duplopg.com/api/merchantpro/payment-link-create/125/test"
+								"url": "{{Baseurl}}/merchantpro/payment-link-create/125/test"
 							},
 							"response": []
 						},
@@ -4854,7 +4854,7 @@
 								"auth": {
 									"type": "bearer",
 									"bearer": {
-										"token": "2825|8H49FaWJD25tMnDrGpgxLPhdzu4w0poOqbZnRMsc"
+										"token": "{{token}}"
 									}
 								},
 								"method": "POST",
@@ -4868,7 +4868,7 @@
 										}
 									}
 								},
-								"url": "https://api.duplopg.com/api/merchantpro/payment-link-create/125/test"
+								"url": "{{Baseurl}}/merchantpro/payment-link-create/125/test"
 							},
 							"response": []
 						},
@@ -4902,7 +4902,7 @@
 								"auth": {
 									"type": "bearer",
 									"bearer": {
-										"token": "2825|8H49FaWJD25tMnDrGpgxLPhdzu4w0poOqbZnRMsc"
+										"token": "{{token}}"
 									}
 								},
 								"method": "POST",
@@ -4916,7 +4916,7 @@
 										}
 									}
 								},
-								"url": "https://api.duplopg.com/api/merchantpro/payment-link-create/125/test"
+								"url": "{{Baseurl}}/merchantpro/payment-link-create/125/test"
 							},
 							"response": []
 						},
@@ -4950,7 +4950,7 @@
 								"auth": {
 									"type": "bearer",
 									"bearer": {
-										"token": "2825|8H49FaWJD25tMnDrGpgxLPhdzu4w0poOqbZnRMsc"
+										"token": "{{token}}"
 									}
 								},
 								"method": "POST",
@@ -4964,7 +4964,7 @@
 										}
 									}
 								},
-								"url": "https://api.duplopg.com/api/merchantpro/payment-link-create/125/test"
+								"url": "{{Baseurl}}/merchantpro/payment-link-create/125/test"
 							},
 							"response": []
 						},
@@ -4998,7 +4998,7 @@
 								"auth": {
 									"type": "bearer",
 									"bearer": {
-										"token": "2825|8H49FaWJD25tMnDrGpgxLPhdzu4w0poOqbZnRMsc"
+										"token": "{{token}}"
 									}
 								},
 								"method": "POST",
@@ -5012,7 +5012,7 @@
 										}
 									}
 								},
-								"url": "https://api.duplopg.com/api/merchantpro/payment-link-create/125/test"
+								"url": "{{Baseurl}}/merchantpro/payment-link-create/125/test"
 							},
 							"response": []
 						},
@@ -5046,21 +5046,21 @@
 								"auth": {
 									"type": "bearer",
 									"bearer": {
-										"token": "2825|8H49FaWJD25tMnDrGpgxLPhdzu4w0poOqbZnRMsc"
+										"token": "{{token}}"
 									}
 								},
 								"method": "POST",
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n\"name\":\"Testing\",\n\"amount\":\"1,000\",\n\"currency\":\"\",\n\"description\":\"Testing\",\n\"redirect\":\"\"\n}",
+									"raw": "{\n\"name\":\"\",\n\"amount\":\"\",\n\"currency\":\"\",\n\"description\":\"\",\n\"redirect\":\"\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
 										}
 									}
 								},
-								"url": "https://api.duplopg.com/api/merchantpro/payment-link-create/125/test"
+								"url": "{{Baseurl}}/merchantpro/payment-link-create/125/test"
 							},
 							"response": []
 						}
@@ -5081,7 +5081,7 @@
 		{
 			"listen": "prerequest",
 			"script": {
-				"id": "8c89c3a0-7574-4f0b-a789-06fa0350ed3f",
+				"id": "1e99fee2-e117-4395-abba-d58057a4e8dd",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -5091,7 +5091,7 @@
 		{
 			"listen": "test",
 			"script": {
-				"id": "0d5b4116-9b56-4bbb-a2d1-610d4132c5ee",
+				"id": "40816b65-c530-4c1b-a851-dfe37c8a20c2",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -5108,6 +5108,16 @@
 		{
 			"key": "sk",
 			"value": "sk_test_gmbq9kxqr6bc9otiuk10n5tgzotkoiiq0vagf4y",
+			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": "2825|8H49FaWJD25tMnDrGpgxLPhdzu4w0poOqbZnRMsc",
+			"type": "string"
+		},
+		{
+			"key": "Baseurl",
+			"value": "https://api.duplopg.com/api",
 			"type": "string"
 		}
 	]

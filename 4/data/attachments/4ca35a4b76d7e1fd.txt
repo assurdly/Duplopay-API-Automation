@@ -1,0 +1,1 @@
+{"status":true,"message":"Customer created","data":{"email":"Alisha.Jast6@gmail.com","domain":"test","customer_code":"CUS_dii5wttrmemox4t","id":326,"created_at":"2024-03-18T07:18:41.000000Z","updated_at":"2024-03-18T07:18:41.000000Z"}}

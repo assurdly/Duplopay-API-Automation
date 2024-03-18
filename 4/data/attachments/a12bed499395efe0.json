@@ -1,0 +1,10 @@
+{
+    "Authorization": "Bearer sk_test_gmbq9kxqr6bc9otiuk10n5tgzotkoiiq0vagf4y",
+    "User-Agent": "PostmanRuntime/7.37.1",
+    "Accept": "*/*",
+    "Cache-Control": "no-cache",
+    "Postman-Token": "feddce26-cdcb-41e4-9039-cb82579645ba",
+    "Host": "api.duplopg.com",
+    "Accept-Encoding": "gzip, deflate, br",
+    "Connection": "keep-alive"
+}

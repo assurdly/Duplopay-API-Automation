@@ -1,0 +1,7 @@
+{
+"name":"Testing",
+"amount":"",
+"currency":"NGN",
+"description":"Testing",
+"redirect":""
+}

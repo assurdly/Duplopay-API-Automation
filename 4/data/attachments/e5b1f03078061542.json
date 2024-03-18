@@ -1,0 +1,12 @@
+{
+    "Content-Type": "application/json",
+    "Authorization": "Bearer sk_test_gmbq9kxqr6bc9otiuk10n5tgzotkoiiq0vagf4y",
+    "User-Agent": "PostmanRuntime/7.37.1",
+    "Accept": "*/*",
+    "Cache-Control": "no-cache",
+    "Postman-Token": "807570e6-ff77-4842-b555-514a1eaae89f",
+    "Host": "api.duplopg.com",
+    "Accept-Encoding": "gzip, deflate, br",
+    "Connection": "keep-alive",
+    "Content-Length": "82"
+}

@@ -1,0 +1,6 @@
+{
+    "email": "Alisha.Jast6@gmail.com",
+    "first_name": "Moses Ebuka",
+    "last_name": "George",
+    "phone": "08057037419"
+}

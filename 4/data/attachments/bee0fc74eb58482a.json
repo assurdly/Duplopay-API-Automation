@@ -1,0 +1,10 @@
+{
+    "Date": "Mon, 18 Mar 2024 07:18:55 GMT",
+    "Content-Type": "text/html; charset=UTF-8",
+    "Transfer-Encoding": "chunked",
+    "Connection": "keep-alive",
+    "Server": "nginx/1.18.0 (Ubuntu)",
+    "Cache-Control": "no-cache, private",
+    "Set-Cookie": "duplo_session=eyJpdiI6InRPVDV0b2tNUnJGZnAzY2dGRVBqVHc9PSIsInZhbHVlIjoiTTJsWmNzOUZTVnRKckN1ckFQYU1pRGxYd09HU3p6VHhGSHJselhXM2ZSZ1B0SXZlUkVMcnRFcDd1TVJDRTh0VVFCQ0dPdTVwdWtwNlphRDZMTTNmQ0pZd2crcENadkY3V1dwMUdGVE8xN1FPWWZENHVZWWwyMzZCUk5JR1IvTnUiLCJtYWMiOiIxZDY5YWM0OGY2YzM1MWFmMjNlY2FjNjlhZDY3MGI4YzE4ZjkyZmFlOTgxZWJkZGIyNDI3ZjAxMDc0ZjdiYzVhIiwidGFnIjoiIn0%3D; path=/; secure; httponly; samesite=lax",
+    "Content-Encoding": "gzip"
+}

@@ -1,0 +1,1 @@
+{"status":false,"message":"Incomplete request","error":{"bank_name":["The bank name field is required."]}}

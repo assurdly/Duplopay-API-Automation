@@ -1,0 +1,13 @@
+{
+    "Content-Type": "application/json",
+    "Authorization": "Bearer 2825|8H49FaWJD25tMnDrGpgxLPhdzu4w0poOqbZnRMsc",
+    "User-Agent": "PostmanRuntime/7.37.1",
+    "Accept": "*/*",
+    "Cache-Control": "no-cache",
+    "Postman-Token": "f81d58a4-ff01-48eb-b8e3-85fe630d9c24",
+    "Host": "api.duplopg.com",
+    "Accept-Encoding": "gzip, deflate, br",
+    "Connection": "keep-alive",
+    "Content-Length": "91",
+    "Cookie": "XSRF-TOKEN=eyJpdiI6InMzY2ROQ3ZERkhsU05IT3pSME5nSGc9PSIsInZhbHVlIjoiaVA5ZFRhTXVDTUhwK3BFaXdJNU1ySnZjUzRsUktkaGdPR0NpTXRaUTlGZVp4SG1qNHloVDFFWG5OUU1RMzh1WmQrdGE3K2FXdW8wamh2ZFY2UGpaMjd1U2k3b1ZhL2tSeDVHZEwrWURWTDU1bThoSExNZitiTVg4NlIvNWs5U3kiLCJtYWMiOiIwNWExNGZlNTY0ZjQ1ODIwNDdkODhlM2ExNjQ2Mjg4NjFlNzNmMmJmMjUyM2MxODg3MjJhYmJiYjEwZTVlMzg4IiwidGFnIjoiIn0%3D; duplo_session=eyJpdiI6Ik5JMHNEM1hFTVUvZ3FhQm9KSHB6Qmc9PSIsInZhbHVlIjoiakdjNmNxWUxBeDd3SXBDV0lPWWhuR2xkOC9BVzF1MWd5bngxOHdlbWlCRHpjVEZUSm84bUZBSmpFSGt0akhjaFNvZW83WUVzbGJjN0hoQVpMV1NEOXhybThPL1ZlcFlYL2JKU01lcGkzMWE5K01qQjJkaVBGSXVtdWRkeGxkeVIiLCJtYWMiOiJmNjNkZjZhYWNjNDI5MWJhZWIxNzIxYzlhYjRiYjgyNGNkYTg0MWYzNmM1NDUzOWU3MWRjZGQxNDY4OWVlZTVlIiwidGFnIjoiIn0%3D"
+}
